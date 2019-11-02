@@ -1,0 +1,14 @@
+
+@import '~@coreui/coreui/scss/variables/colors';
+@import '~@coreui/coreui/scss/variables/bootstrap/variables';
+
+.dropdown-item {
+  svg {
+    display: inline-block;
+    width: 20px;
+    margin-right: 10px;
+    color: $dropdown-border-color;
+    text-align: center;
+  }
+}
+
