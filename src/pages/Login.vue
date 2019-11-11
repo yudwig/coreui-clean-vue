@@ -9,6 +9,7 @@
                 <b-form @submit.prevent="login">
                   <h1>Login</h1>
                   <p class="text-muted">Sign In to your account</p>
+
                   <b-input-group class="mb-3">
                     <b-input-group-prepend>
                       <b-input-group-text><i class="icon-user"></i></b-input-group-text>
@@ -25,14 +26,24 @@
                                   placeholder="Password" autocomplete="current-password"
                                   v-model="loginForm.password"/>
                   </b-input-group>
-                  <b-row>
-                    <b-col cols="6">
-                      <b-button type="submit" variant="primary" class="px-4">Login</b-button>
-                    </b-col>
-                    <b-col cols="6" class="text-right">
+
+                  <b-row class="mb-4">
+                    <b-button type="submit" variant="primary" class="px-4">Login</b-button>
+                    <b-button type="button" variant="primary" class="px-4 ml-2"
+                              v-on:click="loginGuest">Guest Login</b-button>
+                    <b-col class="text-right">
                       <b-button variant="link" class="px-0">Forgot password?</b-button>
                     </b-col>
                   </b-row>
+
+                  <b-row v-for="error in errorMessages">
+                    <b-alert class="col-12" show variant="danger">{{error.message}}</b-alert>
+                  </b-row>
+
+                  <b-row v-for="info in infoMessages">
+                    <b-alert class="col-12" show variant="info">{{info.message}}</b-alert>
+                  </b-row>
+
                 </b-form>
               </b-card-body>
             </b-card>
@@ -44,6 +55,9 @@
 </template>
 
 <script>
+
+  import {mapGetters} from 'vuex';
+
   export default {
     name: 'Login',
     data () {
@@ -51,16 +65,31 @@
         loginForm: {
           loginId: '',
           password: ''
-        }
+        },
       }
     },
+    computed: {
+      ...mapGetters({
+        errorMessages: 'auth/errorMessages',
+        infoMessages:  'auth/infoMessages',
+      })
+    },
     methods: {
-      login () {
+      async login () {
         console.log(this.loginForm.loginId, this.loginForm.password);
+        await this.$store.dispatch('auth/login');
+      },
+      async loginGuest() {
+        await this.$store.dispatch('auth/loginGuest');
+
+        if (this.$store.getters['auth/isValidUser']) {
+          console.log('success. user is valid.');
+          this.$router.push('/dashboard');
+        } else {
+          console.log('error. user is inValid.');
+        }
       }
     }
   }
 </script>
-
-
 
