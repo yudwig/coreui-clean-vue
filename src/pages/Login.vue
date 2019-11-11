@@ -30,7 +30,7 @@
                   <b-row class="mb-4">
                     <b-button type="submit" variant="primary" class="px-4">Login</b-button>
                     <b-button type="button" variant="primary" class="px-4 ml-2"
-                              v-on:click="loginGuest">Guest Login</b-button>
+                              @click="loginGuest">Guest Login</b-button>
                     <b-col class="text-right">
                       <b-button variant="link" class="px-0">Forgot password?</b-button>
                     </b-col>
@@ -60,7 +60,7 @@
 
   export default {
     name: 'Login',
-    data () {
+    data() {
       return {
         loginForm: {
           loginId: '',
@@ -75,7 +75,7 @@
       })
     },
     methods: {
-      async login () {
+      async login() {
         console.log(this.loginForm.loginId, this.loginForm.password);
         await this.$store.dispatch('auth/login');
       },
