@@ -10,8 +10,8 @@
     <template slot="dropdown">
       <b-dropdown-text>
         <div class="profile-text">
-          <div><strong>{{ accountName }}</strong></div>
-          <span>developer</span>
+          <div><strong>{{userName}}</strong></div>
+          <span>{{userGroup}}</span>
         </div>
       </b-dropdown-text>
       <b-dropdown-divider></b-dropdown-divider>
@@ -23,7 +23,7 @@
         <font-awesome-icon :icon="['fas', 'wrench']"/>
         <span class="dropdown-text">Settings</span>
       </b-dropdown-item>
-      <b-dropdown-item>
+      <b-dropdown-item @click="logout">
         <font-awesome-icon :icon="['fas', 'lock']"/>
         <span class="dropdown-text">Logout</span>
       </b-dropdown-item>
@@ -63,6 +63,7 @@
 
   import { fas } from '@fortawesome/free-solid-svg-icons';
   import { far } from '@fortawesome/free-regular-svg-icons'
+  import {mapGetters} from 'vuex';
 
   library.add(fas, far);
 
@@ -73,10 +74,17 @@
       FontAwesomeIcon
       // BDropdownHeader
     },
-    data() {
-      return {
-        accountName: "My Test"
-      };
+    computed: {
+      ...mapGetters({
+        userName:  'auth/userName',
+        userGroup: 'auth/userGroup'
+      })
+    },
+    methods: {
+      async logout() {
+        await this.$store.dispatch('auth/logout');
+        this.$router.push('/login');
+      }
     }
   }
 </script>

@@ -36,8 +36,8 @@ const actions = {
   },
   async loginGuest (context) {
     context.commit('setUser', {
-      name: 'Guest',
-      typeName: 'developer'
+      name:      'Guest',
+      groupName: 'developer'
     });
     context.commit('clearMessages');
   }
@@ -45,6 +45,7 @@ const actions = {
 const getters = {
   isValidUser:   state => Boolean(state.user),
   userName:      state => state.user ? state.user.name : '',
+  userGroup:     state => state.user ? state.user.groupName: '',
   messages:      state => state.messages,
   errorMessages: state => state.messages.filter(msg => msg.type === 'error'),
   infoMessages:  state => state.messages.filter(msg => msg.type === 'info'),
