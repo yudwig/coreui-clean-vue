@@ -76,17 +76,12 @@
     },
     methods: {
       async login() {
-        console.log(this.loginForm.loginId, this.loginForm.password);
         await this.$store.dispatch('auth/login');
       },
       async loginGuest() {
         await this.$store.dispatch('auth/loginGuest');
-
         if (this.$store.getters['auth/isValidUser']) {
-          console.log('success. user is valid.');
           this.$router.push('/dashboard');
-        } else {
-          console.log('error. user is inValid.');
         }
       }
     }

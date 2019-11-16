@@ -11,7 +11,8 @@
       <b-dropdown-text>
         <div class="profile-text">
           <div><strong>{{userName}}</strong></div>
-          <span>{{userGroup}}</span>
+          <div>{{loginId}}</div>
+          <div>{{userGroup}}</div>
         </div>
       </b-dropdown-text>
       <b-dropdown-divider></b-dropdown-divider>
@@ -27,12 +28,6 @@
         <font-awesome-icon :icon="['fas', 'lock']"/>
         <span class="dropdown-text">Logout</span>
       </b-dropdown-item>
-
-      <b-dropdown-item>
-        <i class="fa fa-tasks" />
-        <span class="dropdown-text">Tasks</span>
-      </b-dropdown-item>
-
     </template>
   </AppHeaderDropdown>
 </template>
@@ -77,7 +72,8 @@
     computed: {
       ...mapGetters({
         userName:  'auth/userName',
-        userGroup: 'auth/userGroup'
+        userGroup: 'auth/userGroup',
+        loginId:   'auth/loginId'
       })
     },
     methods: {

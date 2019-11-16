@@ -54,6 +54,7 @@
 
   import DropdownAccount from './DropdownAccount.vue';
   import nav from '../nav';
+  import {mapGetters, mapState} from 'vuex';
 
   export default {
     name: "AppContainer",
@@ -77,6 +78,21 @@
     data() {
       return {
         nav: nav.items
+      }
+    },
+    computed: {
+      ...mapGetters({
+        isValidUser: 'auth/isValidUser',
+      }),
+      ...mapState({
+        statusCode: 'error/status'
+      })
+    },
+    watch: {
+      statusCode: {
+        async handler(status) {
+
+        }
       }
     }
   }

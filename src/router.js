@@ -4,15 +4,18 @@ import VueRouter from 'vue-router';
 // Pages
 import Dashboard from './pages/Dashboard.vue';
 import Page1 from './pages/Page1.vue';
-import Container from './containers/AppContainer';
+import AppContainer from './containers/AppContainer';
 import Todo from './pages/Todo.vue';
 import Login from './pages/Login.vue';
+import Error404 from './pages/errors/Error404.vue';
+import Error500 from './pages/errors/Error500.vue';
+import status from './store/status';
 
 const routes = [
   {
     path: '/',
     redirect: '/dashboard',
-    component: Container,
+    component: AppContainer,
     children: [
       {
         path: 'dashboard',
@@ -30,8 +33,25 @@ const routes = [
   },
   {
     path: '/login',
-    component: Login
-  }
+    component: Login,
+    meta: {
+      statusCode: status.unAuthorized
+    }
+  },
+  {
+    path: '/500',
+    component: Error500,
+    meta: {
+      statusCode: status.internalServerError
+    }
+  },
+  {
+    path: '*',
+    component: Error404,
+    meta: {
+      statusCode: status.notFound
+    }
+  },
 ];
 
 Vue.use(VueRouter);
