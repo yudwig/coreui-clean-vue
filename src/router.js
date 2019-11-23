@@ -9,7 +9,6 @@ import Todo from './pages/Todo.vue';
 import Login from './pages/Login.vue';
 import Error404 from './pages/errors/Error404.vue';
 import Error500 from './pages/errors/Error500.vue';
-import status from './store/status';
 
 const routes = [
   {
@@ -34,23 +33,14 @@ const routes = [
   {
     path: '/login',
     component: Login,
-    meta: {
-      statusCode: status.unAuthorized
-    }
   },
   {
     path: '/500',
     component: Error500,
-    meta: {
-      statusCode: status.internalServerError
-    }
   },
   {
     path: '*',
     component: Error404,
-    meta: {
-      statusCode: status.notFound
-    }
   },
 ];
 

@@ -1,14 +1,15 @@
-import status from './status';
+import statusCodes from '../modules/status-codes';
+import HttpResponse from '../modules/http-response';
 
 const fakes = {
   errorMessages: [
     {
       type: 'error',
-      message: 'Not defined API.'
+      text: 'Not defined API.'
     },
     {
       type: 'info',
-      message: 'Implement your login API or use guest login.'
+      text: 'Implement your login API or use guest login.'
     }
   ],
   guestUser: {
@@ -20,23 +21,25 @@ const fakes = {
 
 const api = {
   login (data) {
-    return {
-      status: status.ok,
-      messages: fakes.errorMessages
-    }
+    return new HttpResponse({
+      code: statusCodes.ok,
+      messages: fakes.errorMessages,
+    }, {
+      user: null
+    })
   },
   logout () {
-    return {
-      status: status.ok
-    }
+    return new HttpResponse({
+      code: statusCodes.ok
+    })
   },
   user() {
-    return {
-      status: status.ok,
-      data: {
-        user: fakes.guestUser
-      }
-    }
+    return new HttpResponse({
+      code: statusCodes.ok
+    }, {
+      user: fakes.guestUser
+      // user: null
+    });
   }
 };
 
@@ -56,26 +59,30 @@ const mutations = {
 const actions = {
   async login (context, data) {
     const res = api.login(data);
-    context.commit('clearUser');
-    context.commit('error/setStatus', data.status);
-    context.commit('error/setMessages', res.messages);
+    if (res.status.isSuccess()) {
+      context.commit('setUser', res.data.user);
+    }
+    return res.status;
   },
   async logout (context) {
     const res = api.logout();
-    context.commit('clearUser');
-    context.commit('error/clearMessages');
-    context.commit('error/setStatus', data.status);
-    context.commit('error/setMessages', res.messages);
+    if (res.status.isSuccess()) {
+      context.commit('clearUser');
+    }
+    return res.status;
   },
   async loginGuest (context) {
     context.commit('setUser', fakes.guestUser);
-    context.commit('error/clearMessages');
+    return new HttpResponse({
+      code: statusCodes.ok
+    });
   },
   async initSessionUser (context) {
-    const res = context.commit('user');
-    context.commit('setUser', res.data.user);
-    context.commit('error/setStatus', res.status);
-    context.commit('error/clearMessages');
+    const res = api.user();
+    if (res.status.isSuccess()) {
+      context.commit('setUser', res.data.user);
+    }
+    return res.status;
   }
 };
 
@@ -84,9 +91,6 @@ const getters = {
   userName:      state => state.user ? state.user.name : '',
   loginId:       state => state.user ? state.user.id : '',
   userGroup:     state => state.user ? state.user.groupName: '',
-  messages:      state => state.messages,
-  errorMessages: state => state.messages.filter(msg => msg.type === 'error'),
-  infoMessages:  state => state.messages.filter(msg => msg.type === 'info'),
 };
 
 export default {

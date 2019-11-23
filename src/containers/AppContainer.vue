@@ -19,7 +19,7 @@
       </AppSidebar>
       <main class="main">
         <div class="container-fluid">
-          <RouterView></RouterView>
+          <RouterView @checkStatusCode="checkStatusCode"></RouterView>
         </div>
       </main>
     </div>
@@ -83,16 +83,21 @@
     computed: {
       ...mapGetters({
         isValidUser: 'auth/isValidUser',
-      }),
-      ...mapState({
-        statusCode: 'error/status'
       })
     },
+    methods: {
+      async checkStatusCode(code) {
+        this.$emit('checkStatusCode', code)
+      }
+    },
     watch: {
-      statusCode: {
-        async handler(status) {
-
-        }
+      isValidUser: {
+        async handler(val) {
+          if (!val) {
+            this.$router.push('/login');
+          }
+        },
+        immediate: true
       }
     }
   }

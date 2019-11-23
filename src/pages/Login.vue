@@ -35,15 +35,11 @@
                       <b-button variant="link" class="px-0">Forgot password?</b-button>
                     </b-col>
                   </b-row>
-
-                  <b-row v-for="error in errorMessages">
-                    <b-alert class="col-12" show variant="danger">{{error.message}}</b-alert>
+                  <b-row v-for="msg in messages">
+                    <b-alert class="col-12" show v-bind:variant="msg.className">
+                      {{msg.text}}
+                    </b-alert>
                   </b-row>
-
-                  <b-row v-for="info in infoMessages">
-                    <b-alert class="col-12" show variant="info">{{info.message}}</b-alert>
-                  </b-row>
-
                 </b-form>
               </b-card-body>
             </b-card>
@@ -55,8 +51,7 @@
 </template>
 
 <script>
-
-  import {mapGetters} from 'vuex';
+  import {mapGetters} from "vuex";
 
   export default {
     name: 'Login',
@@ -66,23 +61,35 @@
           loginId: '',
           password: ''
         },
+        messages: []
       }
+    },
+    mounted() {
+      // this.$store.dispatch('auth/initSessionUser');
     },
     computed: {
       ...mapGetters({
-        errorMessages: 'auth/errorMessages',
-        infoMessages:  'auth/infoMessages',
+        isValidUser: 'auth/isValidUser'
       })
+    },
+    watch: {
+      isValidUser: {
+        async handler(val) {
+          if (val) {
+            this.$router.push('/dashboard');
+          }
+        }
+      }
     },
     methods: {
       async login() {
-        await this.$store.dispatch('auth/login');
+        const status = await this.$store.dispatch('auth/login');
+        this.messages = status.messages;
+        this.$emit('checkStatusCode', status.code);
       },
       async loginGuest() {
         await this.$store.dispatch('auth/loginGuest');
-        if (this.$store.getters['auth/isValidUser']) {
-          this.$router.push('/dashboard');
-        }
+        this.$router.push('/dashboard');
       }
     }
   }

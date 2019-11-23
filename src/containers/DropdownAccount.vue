@@ -56,8 +56,8 @@
     FontAwesomeIcon
   } from '@fortawesome/vue-fontawesome';
 
-  import { fas } from '@fortawesome/free-solid-svg-icons';
-  import { far } from '@fortawesome/free-regular-svg-icons'
+  import {fas} from '@fortawesome/free-solid-svg-icons';
+  import {far} from '@fortawesome/free-regular-svg-icons'
   import {mapGetters} from 'vuex';
 
   library.add(fas, far);
@@ -79,7 +79,6 @@
     methods: {
       async logout() {
         await this.$store.dispatch('auth/logout');
-        this.$router.push('/login');
       }
     }
   }

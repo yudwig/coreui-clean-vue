@@ -1,10 +1,23 @@
 <template>
-  <RouterView></RouterView>
+  <RouterView @checkStatusCode="checkStatusCode"></RouterView>
 </template>
 
 <script>
+  import statusCodes from "./modules/status-codes";
   export default {
-    name: 'app'
+    name: 'app',
+    methods: {
+      async checkStatusCode(code) {
+        if (code === statusCodes.internalServerError) {
+          this.$router.push('/500');
+        } else if (code === statusCodes.unAuthorized) {
+          this.$router.push('/login');
+        }
+      }
+    },
+    beforeCreate() {
+      this.$store.dispatch('auth/initSessionUser');
+    },
   }
 </script>
 
