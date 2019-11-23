@@ -6,23 +6,18 @@ export default {
       icon: 'icon-speedometer',
       badge: {
         variant: 'primary',
-        text: 'NEW'
+        // text: 'NEW'
       }
     },
     {
       name: 'page1',
       url: '/page1',
-      icon: 'icon-speedometer',
+      icon: 'icon-list',
     },
     {
       name: 'todo',
       url: '/todo',
-      icon: 'icon-speedometer',
-    },
-    {
-      name: 'login',
-      url: '/login',
-      icon: 'icon-speedometer',
+      icon: 'icon-note',
     },
   ]
 }
