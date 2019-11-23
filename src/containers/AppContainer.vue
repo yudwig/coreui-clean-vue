@@ -13,7 +13,7 @@
       <AppSidebar fixed>
         <SidebarHeader/>
         <SidebarForm/>
-        <SidebarNav :navItems="nav"></SidebarNav>
+        <SidebarNav :navItems="navItems"></SidebarNav>
         <SidebarFooter/>
         <SidebarMinimizer/>
       </AppSidebar>
@@ -77,7 +77,7 @@
     },
     data() {
       return {
-        nav: nav.items
+        navItems: nav.items
       }
     },
     computed: {
@@ -91,6 +91,17 @@
       }
     },
     watch: {
+      $route: {
+        async handler(route) {
+          this.navItems = nav.items.map(item => {
+            item.attributes = route.path === item.url ? {
+              class: 'active'
+            } : {};
+            return item;
+          });
+        },
+        immediate: true
+      },
       isValidUser: {
         async handler(val) {
           if (!val) {
