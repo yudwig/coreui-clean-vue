@@ -4,6 +4,7 @@ import VueRouter from 'vue-router';
 // Pages
 import Dashboard from './pages/Dashboard.vue';
 import Page1 from './pages/Page1.vue';
+import ItemList from './pages/ItemList';
 import AppContainer from './containers/AppContainer';
 import Todo from './pages/Todo.vue';
 import Login from './pages/Login.vue';
@@ -23,6 +24,10 @@ const routes = [
       {
         path: 'page1',
         component: Page1
+      },
+      {
+        path: 'item',
+        component: ItemList
       },
       {
         path: 'todo',

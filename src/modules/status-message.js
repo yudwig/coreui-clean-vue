@@ -1,6 +1,6 @@
 const typeClassNames = {
   error: 'danger',
-  info: 'info'
+  info:  'info'
 };
 
 class StatusMessage {
