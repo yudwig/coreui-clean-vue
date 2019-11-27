@@ -14,7 +14,7 @@ export default {
       icon: 'icon-list',
     },
     {
-      name: 'todo',
+      name: 'Todo',
       url:  '/todo',
       icon: 'icon-note',
     },

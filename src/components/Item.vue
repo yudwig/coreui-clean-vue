@@ -1,8 +1,11 @@
 <template>
   <div class="item">
-    <div class="item-image-container">
-      <img :src="item.image_url">
-    </div>
+    <figure class="item-image-container">
+      <img class="item-image" :src=item.image_url>
+      <a class="item-overlay">
+        <p class="item-title">{{item.title}}</p>
+      </a>
+    </figure>
   </div>
 </template>
 
@@ -18,9 +21,36 @@
 </script>
 
 <style scoped>
-  .item img {
-    /*height: 100%;*/
+  .item-image {
     width: 100%;
+    height: 100%;
     object-fit: cover;
+    position: absolute;
+  }
+  .item-image-container {
+    width: 100%;
+    height: 0;
+    position: relative;
+    padding-bottom: 61.8%;
+    margin-bottom: 0;
+  }
+  .item-overlay {
+    position: absolute;
+    right: 0;
+    top: 0;
+    background: rgba(0,0,0,0.3);
+    bottom: 0;
+    left: 0;
+    visibility: hidden;
+    display: flex;
+    align-items: flex-end;
+  }
+  .item-image-container:hover .item-overlay {
+    visibility: visible;
+  }
+  .item-title {
+    color: white;
+    margin-left: 15px;
+    margin-bottom: 15px;
   }
 </style>
