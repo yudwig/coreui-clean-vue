@@ -9,11 +9,6 @@ export default {
       }
     },
     {
-      name: 'page1',
-      url:  '/page1',
-      icon: 'icon-list',
-    },
-    {
       name: 'Item',
       url:  '/item',
       icon: 'icon-list',
