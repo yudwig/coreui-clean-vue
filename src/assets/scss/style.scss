@@ -3,5 +3,12 @@
   box-shadow: 0 3px 8px 0 rgba(0, 0, 0, 0.1);
 }
 .app-body {
-  background-color: white;
+  //background-color: white;
+  background-color: #f3f3f3;
+}
+.app .main .container-fluid {
+  padding: 0;
+}
+.page-body {
+  padding: 0 30px;
 }

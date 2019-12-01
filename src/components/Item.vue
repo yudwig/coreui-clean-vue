@@ -1,6 +1,6 @@
 <template>
   <div class="item">
-    <figure class="item-image-container">
+    <figure class="item-image-container" @click="imageClicked">
       <img class="item-image" :src=item.image_url>
       <a class="item-overlay">
         <p class="item-title">{{item.title}}</p>
@@ -16,11 +16,19 @@
       item: {
         type: Object
       }
+    },
+    methods: {
+      imageClicked() {
+        this.$emit('imageClicked');
+      }
     }
   }
 </script>
 
 <style scoped>
+  .item {
+    cursor: pointer;
+  }
   .item-image {
     width: 100%;
     height: 100%;

@@ -9,8 +9,8 @@ export default {
       }
     },
     {
-      name: 'Item',
-      url:  '/item',
+      name: 'Items',
+      url:  '/items',
       icon: 'icon-list',
     },
     {
