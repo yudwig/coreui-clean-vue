@@ -1,6 +1,5 @@
 <template>
   <div class="page-body item-list">
-<!--    <div class="list-container">-->
     <div class="list-container" v-if="!detailItem">
       <div class="list-header-container">
         <header>total 50 items</header>
@@ -59,6 +58,7 @@
     methods: {
       openDetail(item) {
         this.detailItem = item;
+        window.history.pushState(null, null, '/item/' + item.id);
       },
       closeDetail() {
         this.detailItem = null;
@@ -76,10 +76,7 @@
   }
   .list {
     display: grid;
-    /*grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));*/
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    /*grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));*/
-    /*column-gap: 10px;*/
     column-gap: 20px;
     row-gap: 20px;
   }

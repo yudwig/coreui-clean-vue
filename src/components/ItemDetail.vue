@@ -42,6 +42,9 @@
 <script>
   export default {
     name: "ItemDetail",
+    mounted() {
+      window.addEventListener('popstate', () => this.$emit('closeButtonClicked'));
+    },
     props: {
       item: {
         type: Object
@@ -49,7 +52,7 @@
     },
     methods: {
       closeButtonClicked() {
-        this.$emit('closeButtonClicked');
+        history.back();
       }
     }
   }
