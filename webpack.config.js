@@ -6,7 +6,7 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
-  entry: './src/index.js',
+  entry: './src/modules/app/index.js',
   output: {
     path: path.resolve(__dirname, './public/'),
     filename: 'js/bundle.js'

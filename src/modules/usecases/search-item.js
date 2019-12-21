@@ -1,5 +1,5 @@
-import HttpResponse from '../http-response';
-import statusCodes from '../status-codes';
+import HttpResponse from '../entities/http-response';
+import statusCodes from '../entities/status-codes';
 
 class SearchItem {
   query(conditions) {

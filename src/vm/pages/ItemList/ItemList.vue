@@ -15,8 +15,8 @@
 </template>
 
 <script>
-  import Item from '../components/Item';
-  import ItemDetail from "../components/ItemDetail";
+  import Item from '../../components/Item';
+  import ItemDetail from "../../components/ItemDetail";
   export default {
     name: "ItemList",
     components: {

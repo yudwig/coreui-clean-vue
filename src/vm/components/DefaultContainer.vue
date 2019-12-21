@@ -63,7 +63,7 @@
 
 <script>
 // import nav from '@/_nav'
-import nav from '../nav.js';
+import nav from '../../modules/app/nav.js';
 import {
   Header as AppHeader,
   SidebarToggler,

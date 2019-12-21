@@ -1,5 +1,5 @@
-import statusCodes from '../modules/status-codes';
-import HttpResponse from '../modules/http-response';
+import statusCodes from '../../entities/status-codes';
+import HttpResponse from '../../entities/http-response';
 
 const fakes = {
   errorMessages: [

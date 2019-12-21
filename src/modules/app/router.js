@@ -2,14 +2,15 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 
 // Pages
-import Dashboard from './pages/Dashboard.vue';
-import ItemList from './pages/ItemList';
-import ItemDetail from './components/ItemDetail';
-import AppContainer from './containers/AppContainer';
-import Todo from './pages/Todo.vue';
-import Login from './pages/Login.vue';
-import Error404 from './pages/errors/Error404.vue';
-import Error500 from './pages/errors/Error500.vue';
+import Dashboard from '../../vm/pages/Dashboard.vue';
+import ItemList from '../../vm/pages/ItemList/ItemList';
+import ItemDetail from '../../vm/components/ItemDetail';
+import AppContainer from '../../vm/components/AppContainer';
+
+import Todo from '../../vm/pages/Todo.vue';
+import Login from '../../vm/pages/Login.vue';
+import Error404 from '../../vm/pages/Error404.vue';
+import Error500 from '../../vm/pages/Error500.vue';
 
 const routes = [
   {

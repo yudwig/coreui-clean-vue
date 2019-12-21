@@ -3,7 +3,7 @@
 </template>
 
 <script>
-  import statusCodes from "./modules/status-codes";
+  import statusCodes from "../../modules/entities/status-codes";
   export default {
     name: 'app',
     methods: {
@@ -29,6 +29,6 @@
   @import '~simple-line-icons/scss/simple-line-icons.scss';
   /* Import Bootstrap Vue Styles */
   @import '~bootstrap-vue/dist/bootstrap-vue.css';
-  @import './assets/scss/style.scss';
-  @import './assets/scss/dropdown-icons-style.scss';
+  @import '../../assets/scss/style';
+  @import '../../assets/scss/dropdown-icons-style';
 </style>

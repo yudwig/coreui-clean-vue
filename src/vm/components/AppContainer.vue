@@ -53,7 +53,7 @@
   } from '@coreui/vue'
 
   import DropdownAccount from './DropdownAccount.vue';
-  import nav from '../nav';
+  import nav from '../../modules/app/nav';
   import {mapGetters, mapState} from 'vuex';
 
   export default {

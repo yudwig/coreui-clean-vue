@@ -1,4 +1,4 @@
-src/pages/Todo.vue
+src/vm/pages/Todo.vue
 node_modules/
 public/css/*
 public/js/*
