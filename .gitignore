@@ -1,7 +1,12 @@
-src/vm/pages/Todo.vue
+src/vue/sfc/pages/TodoPage.vue
 node_modules/
-public/css/*
-public/js/*
+public/css
+public/js
+public/assets
 yarn-error.log
 .idea/
+*.vue.js
+*.vue.js.map
+*.js.map
+src/modules/**/*.js
 

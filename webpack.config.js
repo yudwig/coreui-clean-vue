@@ -1,4 +1,3 @@
-
 const path = require('path');
 const precss = require('precss');
 const autoprefixer = require('autoprefixer');
@@ -6,11 +5,12 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
-  entry: './src/modules/app/index.js',
+  entry: './src/vue/app/index.js',
   output: {
     path: path.resolve(__dirname, './public/'),
     filename: 'js/bundle.js'
   },
+  cache: true,
   module: {
     rules: [
       {
@@ -31,6 +31,13 @@ module.exports = {
         ]
       },
       {
+        test: /\.ts$/,
+        loader: 'ts-loader',
+        // options: {
+        //   appendTsSuffixTo: [/\.vue$/]
+        // }
+      },
+      {
         test: /\.css$/,
         use: [
           {loader: 'style-loader'},
@@ -40,16 +47,15 @@ module.exports = {
       {
         test: /\.(png|jpe?g|gif|ttf|woff|woff2|eot|svg)$/,
         use: [
-          {loader: 'file-loader', options: {outputPath: 'assets'}}
+          // {loader: 'file-loader', options: {outputPath: 'assets'}}
+          {loader: 'file-loader', options: {outputPath: 'css/assets'}}
         ]
       }
     ]
   },
   resolve: {
-    extensions: ['.js', '.vue'],
+    extensions: ['.js', '.vue', '.ts'],
     alias: {
-      // vue: 'vue/dist/vue.common.js'
-      // vue: 'vue/dist/vue.esm.js'
       'vue$': 'vue/dist/vue.esm.js'
     }
   },

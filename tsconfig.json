@@ -1,9 +1,14 @@
 {
   "compilerOptions": {
     "sourceMap": true,
+    "mapRoot": "/meta/map/",
+//    "inlineSourceMap": true,
     "target": "ES5",
     "module": "ES6",
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "lib": ["dom", "es6"]
   },
+  "include": ["src"],
+  "exclude": ["node_modules"],
   "compileOnSave": true
 }
