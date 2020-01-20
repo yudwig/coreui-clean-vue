@@ -1,6 +1,6 @@
 export class GetItemsQuery {
-    readonly index;
-    readonly count;
+    readonly index: number;
+    readonly count: number;
     constructor(query: {
         index: number,
         count: number

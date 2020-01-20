@@ -1,7 +1,7 @@
 <template>
   <div class="item">
     <figure class="item-image-container" @click="imageClicked">
-      <img class="item-image" :src=item.image_url>
+      <img class="item-image" :src=item.imageUrl>
       <a class="item-overlay">
         <p class="item-title">{{item.title}}</p>
       </a>

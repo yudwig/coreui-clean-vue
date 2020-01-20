@@ -15,11 +15,18 @@
 </template>
 
 <script>
-  import {CreateGetItemsQueryUseCase} from "../../../modules/usecases/CreateGetItemsQuery/CreateGetItemsQueryUseCase";
-  import {GetItemsUseCase} from "../../../modules/usecases/GetItems/GetItemsUseCase";
-  import {OpenItemDetailUseCase} from "../../../modules/usecases/OpenItemDetail/OpenItemDetailUseCase";
   import ItemDetailOrganism from "../organisms/ItemDetailOrganism.vue";
   import ItemThumbnailOrganism from "../organisms/ItemThumbnailOrganism.vue";
+
+  import {CreateGetItemsQueryInteractor} from "../../../modules/usecases/CreateGetItemsQuery/CreateGetItemsQueryInteractor";
+  import {MockGetItemsQueryRepository} from "../../../modules/repositories/GetItemsQuery/MockGetItemsQueryRepository";
+  const getItemsQueryRepository = new MockGetItemsQueryRepository();
+  const createGetItemsQueryInteractor = new CreateGetItemsQueryInteractor(getItemsQueryRepository);
+
+  import {MockGetItemsInteractor} from "../../../modules/usecases/GetItems/MockGetItemsInteractor";
+  import {MockItemRepository} from "../../../modules/repositories/item/MockItemRepository";
+  const itemRepository = new MockItemRepository();
+  const getItemsInteractor = new MockGetItemsInteractor(itemRepository);
 
   export default {
     name: "ItemList",
@@ -29,8 +36,21 @@
     },
     data() {
       return {
+        getItemsQuery: {},
+        itemDisplayFormat: {},
         detailItem: null
       }
+    },
+    computed: {
+      getItemsResponse() {
+        return getItemsInteractor.handle(this.getItemsQuery);
+      },
+      items() {
+        return this.getItemsResponse.items;
+      },
+    },
+    created() {
+      this.getItemsQuery = createGetItemsQueryInteractor.handle();
     },
     methods: {
       openDetail(item) {
