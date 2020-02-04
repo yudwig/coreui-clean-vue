@@ -6,7 +6,8 @@
     "target": "ES5",
     "module": "ES6",
     "moduleResolution": "node",
-    "lib": ["dom", "es6"]
+    "lib": ["dom", "es6"],
+    "esModuleInterop": true
   },
   "include": ["src"],
   "exclude": ["node_modules"],

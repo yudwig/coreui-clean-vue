@@ -19,11 +19,6 @@ export class NavLink {
             icon: 'icon-note',
         },
     ];
-
-    get asdf() {
-        return "test";
-    }
-
     get items() {
         return this.links;
     }

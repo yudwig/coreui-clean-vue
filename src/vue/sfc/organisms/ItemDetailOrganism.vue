@@ -14,7 +14,7 @@
           <div class="image-pane">
             <div class="image-pane-inner">
               <figure class="detail-image-container">
-                <img class="detail-image" :src="item.image_url">
+                <img class="detail-image" :src="item.imageUrl">
               </figure>
             </div>
           </div>
@@ -42,9 +42,9 @@
 <script>
   export default {
     name: "ItemDetailOrganism",
-    mounted() {
-      window.addEventListener('popstate', () => this.$emit('closeButtonClicked'));
-    },
+    // mounted() {
+      // window.addEventListener('popstate', () => this.$emit('closeButtonClicked'));
+    // },
     props: {
       item: {
         type: Object
@@ -52,7 +52,8 @@
     },
     methods: {
       closeButtonClicked() {
-        history.back();
+        this.$emit('closeButtonClicked');
+        // history.back();
       }
     }
   }

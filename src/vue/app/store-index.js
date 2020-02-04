@@ -4,9 +4,12 @@ import auth from '../stores/auth.js';
 
 Vue.use(Vuex);
 
+// import VuexItemListStore from "../stores/VuexItemListStore";
+
 const store = new Vuex.Store({
   modules: {
-    auth
+    auth,
+    // VuexItemListStore
   }
 });
 

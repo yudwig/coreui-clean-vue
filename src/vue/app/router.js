@@ -2,15 +2,15 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 
 // Pages
-import Dashboard from '../sfc/templates/DashboardTemplate.vue';
+import Dashboard from '../sfc/templates/DashboardTemplate';
 import ItemList from '../sfc/templates/ItemListTemplate';
 import ItemDetail from '../sfc/organisms/ItemDetailOrganism';
 import AppContainer from '../sfc/frames/ManagedUserNavigationFrame';
 
-import Todo from '../sfc/pages/TodoPage.vue';
-import Login from '../sfc/templates/LoginTemplate.vue';
-import Error404 from '../sfc/pages/Error404Page.vue';
-import Error500 from '../sfc/pages/Error500Page.vue';
+import Todo from '../sfc/pages/TodoPage';
+import Login from '../sfc/templates/LoginTemplate';
+import Error404 from '../sfc/pages/Error404Page';
+import Error500 from '../sfc/pages/Error500Page';
 
 const routes = [
   {
@@ -26,10 +26,10 @@ const routes = [
         path: 'items',
         component: ItemList
       },
-      {
-        path: 'item/:id',
-        component: ItemDetail
-      },
+      // {
+      //   path: 'item/:id',
+      //   component: ItemDetail
+      // },
       {
         path: 'todo',
         component: Todo
@@ -51,7 +51,7 @@ const routes = [
 ];
 
 Vue.use(VueRouter);
-export default new VueRouter({
+export const router = new VueRouter({
   mode:   'history',
   routes: routes
 });

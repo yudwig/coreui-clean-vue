@@ -5,7 +5,7 @@
         <header>total 50 items</header>
       </div>
       <div class="list">
-        <ItemThumbnailOrganism v-for="item in items" :item="item" @imageClicked="openDetail(item)"/>
+        <ItemThumbnailOrganism v-for="item in items" :item="item" @imageClicked="openDetail(item.id)"/>
       </div>
     </div>
     <div class="detail-container" v-if="detailItem">
@@ -17,49 +17,26 @@
 <script>
   import ItemDetailOrganism from "../organisms/ItemDetailOrganism.vue";
   import ItemThumbnailOrganism from "../organisms/ItemThumbnailOrganism.vue";
-
-  import {CreateGetItemsQueryInteractor} from "../../../modules/usecases/CreateGetItemsQuery/CreateGetItemsQueryInteractor";
-  import {MockGetItemsQueryRepository} from "../../../modules/repositories/GetItemsQuery/MockGetItemsQueryRepository";
-  const getItemsQueryRepository = new MockGetItemsQueryRepository();
-  const createGetItemsQueryInteractor = new CreateGetItemsQueryInteractor(getItemsQueryRepository);
-
-  import {MockGetItemsInteractor} from "../../../modules/usecases/GetItems/MockGetItemsInteractor";
-  import {MockItemRepository} from "../../../modules/repositories/item/MockItemRepository";
-  const itemRepository = new MockItemRepository();
-  const getItemsInteractor = new MockGetItemsInteractor(itemRepository);
-
+  import {ItemListController} from "../../../modules/controllers/ItemListController";
+  const controller = new ItemListController();
   export default {
     name: "ItemList",
     components: {
       ItemDetailOrganism,
       ItemThumbnailOrganism
     },
-    data() {
-      return {
-        getItemsQuery: {},
-        itemDisplayFormat: {},
-        detailItem: null
-      }
-    },
+    data: () => ({
+      itemDisplayFormat: {}
+    }),
     computed: {
-      getItemsResponse() {
-        return getItemsInteractor.handle(this.getItemsQuery);
-      },
-      items() {
-        return this.getItemsResponse.items;
-      },
+      items: () => controller.getItems(),
+      detailItem: () => controller.getOpenedItem()
     },
-    created() {
-      this.getItemsQuery = createGetItemsQueryInteractor.handle();
-    },
+    mounted: () => controller.addEvents(),
+    destroyed: () => controller.removeEvents(),
     methods: {
-      openDetail(item) {
-        this.detailItem = item;
-        window.history.pushState(null, null, '/item/' + item.id);
-      },
-      closeDetail() {
-        this.detailItem = null;
-      }
+      openDetail: id => controller.openItem(id),
+      closeDetail: () => controller.closeItem()
     }
   };
 </script>
