@@ -8,6 +8,9 @@
         <ItemThumbnailOrganism v-for="item in items" :item="item" @imageClicked="openDetail(item.id)"/>
       </div>
     </div>
+    <div class="close-button-container">
+      <CloseButtonAtom v-if="detailItem" @closeButtonClicked="closeDetail"/>
+    </div>
     <div class="detail-container" v-if="detailItem">
       <ItemDetailOrganism :item="detailItem" @closeButtonClicked="closeDetail"/>
     </div>
@@ -18,12 +21,14 @@
   import ItemDetailOrganism from "../organisms/ItemDetailOrganism.vue";
   import ItemThumbnailOrganism from "../organisms/ItemThumbnailOrganism.vue";
   import {ItemListController} from "../../../modules/controllers/ItemListController";
+  import CloseButtonAtom from "../atoms/CloseButtonAtom";
   const controller = new ItemListController();
   export default {
     name: "ItemList",
     components: {
       ItemDetailOrganism,
-      ItemThumbnailOrganism
+      ItemThumbnailOrganism,
+      CloseButtonAtom
     },
     data: () => ({
       itemDisplayFormat: {}
@@ -60,5 +65,11 @@
     justify-content: flex-end;
     align-items: center;
     color: #2f353a;
+  }
+  .close-button-container {
+    position: fixed;
+    margin-top: 5px;
+    margin-right: 5px;
+    right: 0;
   }
 </style>

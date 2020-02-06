@@ -4,7 +4,7 @@ import VueRouter from 'vue-router';
 // Pages
 import Dashboard from '../sfc/templates/DashboardTemplate';
 import ItemList from '../sfc/templates/ItemListTemplate';
-import ItemDetail from '../sfc/organisms/ItemDetailOrganism';
+import ItemDetail from '../sfc/templates/ItemDetailTemplate';
 import AppContainer from '../sfc/frames/ManagedUserNavigationFrame';
 
 import Todo from '../sfc/pages/TodoPage';
@@ -26,10 +26,10 @@ const routes = [
         path: 'items',
         component: ItemList
       },
-      // {
-      //   path: 'item/:id',
-      //   component: ItemDetail
-      // },
+      {
+        path: 'item/:id',
+        component: ItemDetail
+      },
       {
         path: 'todo',
         component: Todo
