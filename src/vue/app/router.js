@@ -28,7 +28,8 @@ const routes = [
       },
       {
         path: 'item/:id',
-        component: ItemDetail
+        component: ItemDetail,
+        props: (route) => ({id: parseInt(route.params.id, 10)})
       },
       {
         path: 'todo',

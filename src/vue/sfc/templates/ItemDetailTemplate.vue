@@ -8,9 +8,8 @@
 
 <script>
   import ItemDetailOrganism from "../organisms/ItemDetailOrganism";
-
-  import {MockItemRepository} from "../../../modules/repositories/Item/MockItemRepository";
-  const mock = new MockItemRepository();
+  import {ItemDetailController} from "../../../modules/controllers/ItemDetailController";
+  const controller = new ItemDetailController();
 
   export default {
     name: "ItemDetailTemplate",
@@ -21,10 +20,9 @@
       }
     },
     computed: {
-      item: () => mock.find(1)
-    },
-    created: () => {
-      console.log('ItemDetail::created is called.');
+      item() {
+        return controller.getItem(this.id)
+      }
     }
   }
 </script>
