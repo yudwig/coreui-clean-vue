@@ -1,5 +1,5 @@
 <template>
-  <RouterView @checkStatusCode="checkStatusCode"></RouterView>
+  <RouterView @checkStatusCode="checkStatusCode"/>
 </template>
 
 <script>
@@ -9,9 +9,9 @@
     methods: {
       async checkStatusCode(code) {
         if (code === statusCodes.internalServerError) {
-          this.$router.push('/500');
+          await this.$router.push('/500');
         } else if (code === statusCodes.unAuthorized) {
-          this.$router.push('/login');
+          await this.$router.push('/login');
         }
       }
     },

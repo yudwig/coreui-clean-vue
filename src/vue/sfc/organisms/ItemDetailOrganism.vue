@@ -2,9 +2,6 @@
   <div class="item-detail">
     <div class="item-detail-inner">
       <div class="detail-body-container">
-        <!--      <div class="side-paginator prev-item-paginator">-->
-        <!--        <button type="button">←</button>-->
-        <!--      </div>-->
         <article class="detail-body">
           <header class="detail-header">
             <h1 class="item-title display-4">{{item.title}}</h1>
@@ -23,14 +20,9 @@
               </div>
             </div>
           </section>
-          <div class="close-button-container">
-<!--            <CloseButtonAtom @closeButtonClicked="closeButtonClicked"/>-->
-<!--            <CloseButtonAtom @closeButtonClicked="closeButtonClicked"/>-->
+          <div class="action-button-container">
           </div>
         </article>
-        <!--      <div class="side-paginator next-item-paginator">-->
-        <!--        <button type="button">→</button>-->
-        <!--      </div>-->
       </div>
     </div>
   </div>
@@ -127,16 +119,9 @@
     word-break: break-word;
     overflow-wrap: break-word;
   }
-  .close-button-container {
+  .action-button-container {
     position: absolute;
     right: 20px;
     top: 20px;
-  }
-  .side-paginator {
-    width: 30px;
-    /*background-color: gray;*/
-    display: flex;
-    justify-content: center;
-    align-items: center;
   }
 </style>

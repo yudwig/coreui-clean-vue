@@ -1,9 +1,9 @@
 import {GetItemsUseCase} from "./GetItemsUseCase";
-import {GetItemsResponse} from "../../entities/GetItemsResponse";
-import {ItemRepositoryInterface} from "../../repositories/Item/ItemRepositoryInterface";
-import {GetItemsQuery} from "../../entities/GetItemsQuery";
-import {HttpResponse} from "../../entities/HttpResponse";
-import {StatusCode} from "../../entities/StatusCode";
+import {GetItemsResponse} from "../../../entities/GetItemsResponse";
+import {ItemRepositoryInterface} from "../../../repositories/Item/ItemRepositoryInterface";
+import {GetItemsQuery} from "../../../entities/GetItemsQuery";
+import {HttpResponse} from "../../../entities/HttpResponse";
+import {StatusCode} from "../../../entities/StatusCode";
 
 export class MockGetItemsInteractor implements GetItemsUseCase {
 

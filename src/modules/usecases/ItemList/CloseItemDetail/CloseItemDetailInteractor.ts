@@ -1,6 +1,6 @@
 import {CloseItemDetailUseCase} from "./CloseItemDetailUseCase";
-import {ItemListStoreInterface} from "../../stores/ItemListStoreInterface";
-import {VuexItemListStoreAdaptor} from "../../../vue/stores/VuexItemListStoreAdaptor";
+import {ItemListStoreInterface} from "../../../stores/ItemListStoreInterface";
+import {VuexItemListStoreAdaptor} from "../../../../vue/stores/VuexItemListStoreAdaptor";
 
 export class CloseItemDetailInteractor implements CloseItemDetailUseCase {
 

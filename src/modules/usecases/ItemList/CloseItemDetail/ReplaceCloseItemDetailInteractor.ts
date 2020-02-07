@@ -1,11 +1,11 @@
 import {CloseItemDetailUseCase} from "./CloseItemDetailUseCase";
-import {ItemListStoreInterface} from "../../stores/ItemListStoreInterface";
-import {RouteConfig} from "../../configs/RouteConfig";
-import {RouterDriverInterface} from "../../drivers/RouterDriverInterface";
-import {VuexItemListStoreAdaptor} from "../../../vue/stores/VuexItemListStoreAdaptor";
-import {VueRouterDriver} from "../../drivers/VueRouterDriver";
+import {ItemListStoreInterface} from "../../../stores/ItemListStoreInterface";
+import {VuexItemListStoreAdaptor} from "../../../../vue/stores/VuexItemListStoreAdaptor";
+import {RouteConfig} from "../../../configs/RouteConfig";
+import {RouterDriverInterface} from "../../../drivers/RouterDriverInterface";
+import {VueRouterDriver} from "../../../drivers/VueRouterDriver";
 
-export class BackCloseItemDetailInteractor implements CloseItemDetailUseCase {
+export class ReplaceCloseItemDetailInteractor implements CloseItemDetailUseCase {
 
     private itemListStore: ItemListStoreInterface;
     private routeConfig: RouteConfig;
@@ -22,6 +22,6 @@ export class BackCloseItemDetailInteractor implements CloseItemDetailUseCase {
             return;
         }
         this.itemListStore.setOpenedItem(null);
-        this.routerDriver.pop();
+        this.routerDriver.replace(this.routeConfig.get('itemList').path, {});
     }
 }

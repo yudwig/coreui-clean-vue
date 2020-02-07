@@ -1,8 +1,8 @@
 import {OpenItemDetailUseCase} from "./OpenItemDetailUseCase";
-import {ItemListStoreInterface} from "../../stores/ItemListStoreInterface";
-import {VuexItemListStoreAdaptor} from "../../../vue/stores/VuexItemListStoreAdaptor";
-import {ItemRepositoryInterface} from "../../repositories/Item/ItemRepositoryInterface";
-import {MockItemRepository} from "../../repositories/Item/MockItemRepository";
+import {ItemListStoreInterface} from "../../../stores/ItemListStoreInterface";
+import {VuexItemListStoreAdaptor} from "../../../../vue/stores/VuexItemListStoreAdaptor";
+import {ItemRepositoryInterface} from "../../../repositories/Item/ItemRepositoryInterface";
+import {MockItemRepository} from "../../../repositories/Item/MockItemRepository";
 
 export class OpenItemDetailInteractor implements OpenItemDetailUseCase {
 

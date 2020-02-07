@@ -1,4 +1,4 @@
-import {Item} from "../../entities/Item";
+import {Item} from "../../../entities/Item";
 
 export interface GetOpenedItemUseCase {
     handle(): Item;

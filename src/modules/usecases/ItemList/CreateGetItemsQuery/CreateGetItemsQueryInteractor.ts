@@ -1,6 +1,6 @@
 import {CreateGetItemsQueryUseCase} from "./CreateGetItemsQueryUseCase";
-import {GetItemsQuery} from "../../entities/GetItemsQuery";
-import {GetItemsQueryRepositoryInterface} from "../../repositories/GetItemsQuery/GetItemsQueryRepositoryInterface";
+import {GetItemsQuery} from "../../../entities/GetItemsQuery";
+import {GetItemsQueryRepositoryInterface} from "../../../repositories/GetItemsQuery/GetItemsQueryRepositoryInterface";
 
 export class CreateGetItemsQueryInteractor implements CreateGetItemsQueryUseCase {
 
