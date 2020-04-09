@@ -4,19 +4,28 @@
       <div class="detail-body-container">
         <article class="detail-body">
           <header class="detail-header">
-            <h1 class="item-title display-4">{{item.title}}</h1>
+            <ItemTitleAtom :title="item.title"></ItemTitleAtom>
+            <div class="option-icon-container">
+              <CDropdown :caret="false" :in-nav="true">
+                <template v-slot:toggler-content>
+                  <CIcon class="option-icon" name="cil-options"></CIcon>
+                </template>
+                <CDropdownItem @click="editButtonClicked">Edit</CDropdownItem>
+                <CDropdownItem @click="deleteButtonClicked">Delete</CDropdownItem>
+              </CDropdown>
+            </div>
           </header>
           <section class="image-section">
-            <div class="image-section-inner">
+            <div class="image-section-inner w-100">
               <figure class="detail-image-container">
                 <img class="detail-image" :src="item.imageUrl">
               </figure>
             </div>
           </section>
-          <section class="edit-section">
-            <div class="edit-section-inner">
-              <div class="title">
-                <!--              title:-->
+          <section class="detail-content">
+            <div class="detail-content-inner">
+              <div class="comment">
+                <ItemCommentAtom :comment="item.comment"></ItemCommentAtom>
               </div>
             </div>
           </section>
@@ -29,12 +38,17 @@
 </template>
 
 <script>
-  import CloseButtonAtom from "../atoms/CloseButtonAtom";
+  import ItemTitleAtom from "../atoms/ItemTitleAtom";
+  import ItemCommentAtom from "../atoms/ItemCommentAtom";
+  import {ItemMenuController} from "../../../modules/controllers/ItemMenuController";
+
+  const controller = new ItemMenuController();
 
   export default {
     name: "ItemDetailOrganism",
     components: {
-      CloseButtonAtom
+      ItemTitleAtom,
+      ItemCommentAtom
     },
     props: {
       item: {
@@ -42,8 +56,16 @@
       }
     },
     methods: {
-      closeButtonClicked() {
-        this.$emit('closeButtonClicked');
+      editButtonClicked() {
+        console.log('editButtonClicked is called.');
+        controller.openItemEditPage(this.item.id);
+      },
+      deleteButtonClicked() {
+        console.log('editButtonClicked is called.');
+        if (confirm('Do you want to delete this item?')) {
+          controller.deleteItem(this.item.id);
+          this.$emit('itemDeleted');
+        }
       }
     }
   }
@@ -84,6 +106,7 @@
   }
   .detail-image {
     width: 100%;
+    object-fit: cover;
   }
   .image-section {
     width: 100%;
@@ -92,13 +115,13 @@
     align-items: center;
     justify-content: center;
   }
-  .edit-section {
+  .detail-content {
     width: 335px;
     position: absolute;
     right: 0;
     top: $headerHeight;
   }
-  .edit-section-inner {
+  .detail-content-inner {
     margin: 0 20px;
   }
   .detail-header {
@@ -111,17 +134,23 @@
     padding: 20px;
     border-bottom: 1px solid #e6e6e6;
   }
-  .detail-header h1 {
-    width: 260px;
-    margin-bottom: 0;
-    font-size: 25px;
-    font-weight: 300;
-    word-break: break-word;
-    overflow-wrap: break-word;
-  }
   .action-button-container {
     position: absolute;
     right: 20px;
     top: 20px;
+  }
+  .option-icon-container {
+    width: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .option-icon {
+    width: 20px;
+    height: 20px;
+    color: rgba(0, 0, 21, 0.5);
+  }
+  .nav-item {
+    list-style: none;
   }
 </style>

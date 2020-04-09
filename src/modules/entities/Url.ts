@@ -1,19 +1,19 @@
+import {UrlHref} from "../valueobjects/UrlHref";
+import {UrlDirectories} from "../valueobjects/UrlDirectories";
+import {UrlParameters} from "../valueobjects/UrlParameters";
+
 export class Url {
-    private readonly path: string;
-    private readonly queries: Object;
+  readonly href: UrlHref;
+  readonly directories: UrlDirectories;
+  readonly parameters: UrlParameters;
 
-    constructor(path: string, queries: Object) {
-        this.path = path;
-        this.queries = queries;
-    }
+  constructor(href: UrlHref, directories: UrlDirectories, parameters: UrlParameters) {
+    this.href = href;
+    this.directories = directories;
+    this.parameters = parameters;
+  }
 
-    public toString(): string {
-        if (Object.keys(this.queries).length === 0) {
-            return this.path;
-        }
-        let params = Object.keys(this.queries).map(
-            key => this.queries[key] ? (key + '=' + this.queries[key]) : key
-        );
-        return this.path + '?' + params.join('&')
-    }
+  public path() {
+    return '/' + this.directories.list.join('/')
+  }
 }

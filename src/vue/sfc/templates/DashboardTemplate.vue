@@ -1,5 +1,6 @@
 <template>
-  <div class="page-body">
+  <div>
+    <div class="body-header"></div>
     <div class="jumbotron jumbotron-fluid">
       <div class="container">
         <h1 class="display-4">CoreUI Vue Base</h1>
@@ -9,7 +10,7 @@
         <h5>Features</h5>
         <ul>
           <li>Build by Webpack. Not using Vue CLI.</li>
-          <li>Prepared User Authentication.</li>
+          <li>Prepared MockUser Authentication.</li>
         </ul>
       </div>
     </div>

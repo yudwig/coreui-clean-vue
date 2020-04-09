@@ -9,4 +9,9 @@ yarn-error.log
 *.vue.js.map
 *.js.map
 src/modules/**/*.js
+src/vue/drivers/**/*.js
+src/vue/sfc/**/*.js
+src/vue/states/**/*.js
+tests/**/*.js
+mock/**/*.js
 

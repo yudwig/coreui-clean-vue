@@ -1,14 +1,18 @@
+import 'core-js/stable'
 import Vue from 'vue';
-import App from '../sfc/frames/RootFrame.vue';
 import {router} from './router.js';
-import store from './store-index.js';
+import {iconsSet as icons} from './coreui-icons';
+import CoreuiVue from "@coreui/vue";
+import BootstrapVue from "bootstrap-vue";
+import Vuex from 'vuex';
+
+Vue.use(CoreuiVue);
+Vue.use(BootstrapVue);
+Vue.use(Vuex);
 
 const VueApp = new Vue({
   el: '#app',
-  components: {
-    App
-  },
-  template: '<App/>',
+  template: '<RouterView/>',
   router,
-  store
+  icons
 });

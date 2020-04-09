@@ -1,17 +1,53 @@
 // write main scss for application.
+@import '~@coreui/coreui/scss/variables/colors';
+@import './app-colors';
 
-@import "app-colors";
-
-.app-header {
-  box-shadow: 0 3px 8px 0 rgba(0, 0, 0, 0.1);
-}
-.app-body {
-  //background-color: white;
+.c-body {
   background-color: $appBasicBgColor;
 }
-.app .main .container-fluid {
+.c-main {
   padding: 0;
 }
 .page-body {
-  padding: 0 30px;
+  //padding: 30px;
 }
+.body-header {
+  height: 45px;
+}
+.body-footer {
+  height: 45px;
+}
+.c-header {
+  box-shadow: 0 3px 8px 0 rgba(0, 0, 0, 0.1);
+  .dropdown-item {
+    //color: #4f5d73;
+    min-width: 0;
+    svg {
+      display: inline-block;
+      width: 20px;
+      margin-right: 10px;
+      color: $dropdown-border-color;
+      text-align: center;
+    }
+    &:hover {
+      min-width: 0;
+    }
+  }
+  .dropdown-description {
+    cursor: auto;
+    font-weight: normal;
+  }
+  .dropdown-menu {
+    border: 0;
+    box-shadow: 0 4px 5px 0 rgba(60,75,100,.14), 0 1px 10px 0 rgba(60,75,100,.12), 0 2px 4px -1px rgba(60,75,100,.2);
+  }
+}
+
+//.app .card {
+//  border: 0;
+//  box-shadow: 0 1px 1px 0 rgba(60,75,100,.14), 0 2px 1px -1px rgba(60,75,100,.12), 0 1px 3px 0 rgba(60,75,100,.2);
+//}
+//
+//.app .card-header {
+//  background-color: white;
+//}

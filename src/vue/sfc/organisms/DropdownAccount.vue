@@ -1,85 +1,58 @@
 <template>
-  <AppHeaderDropdown right no-caret>
-    <template slot="header">
-      <img src="https://placekitten.com/32/32"
-           class="img-avatar"
-           height="32" width="32"
-           alt="mytest"
-      />
-    </template>
-    <template slot="dropdown">
-      <b-dropdown-text>
-        <div class="profile-text">
-          <div><strong>{{userName}}</strong></div>
-          <div>{{loginId}}</div>
-          <div>{{userGroup}}</div>
+  <CDropdown
+    inNav
+    class="c-header-nav-items"
+    placement="bottom-end"
+    add-menu-classes="pt-0">
+    <template #toggler>
+      <CHeaderNavLink>
+        <div class="c-avatar">
+          <img src="https://placekitten.com/32/32" class="c-avatar-img" alt="test"/>
         </div>
-      </b-dropdown-text>
-      <b-dropdown-divider></b-dropdown-divider>
-      <b-dropdown-item>
-        <font-awesome-icon :icon="['fas', 'user']"/>
-        <span class="dropdown-text">Profile</span>
-      </b-dropdown-item>
-      <b-dropdown-item>
-        <font-awesome-icon :icon="['fas', 'wrench']"/>
-        <span class="dropdown-text">Settings</span>
-      </b-dropdown-item>
-      <b-dropdown-item @click="logout">
-        <font-awesome-icon :icon="['fas', 'lock']"/>
-        <span class="dropdown-text">Logout</span>
-      </b-dropdown-item>
+      </CHeaderNavLink>
     </template>
-  </AppHeaderDropdown>
+    <b-dropdown-text>
+      <div class="dropdown-description profile-text">
+        <div><strong>{{user.userName}}</strong></div>
+        <div>{{user.userId}}</div>
+        <div>{{user.userGroupName}}</div>
+      </div>
+    </b-dropdown-text>
+    <CDropdownDivider></CDropdownDivider>
+    <CDropdownItem>
+      <font-awesome-icon :icon="['fas', 'user']"/>
+      <span class="dropdown-text">Profile</span>
+    </CDropdownItem>
+    <CDropdownItem>
+      <font-awesome-icon :icon="['fas', 'wrench']"/>
+      <span class="dropdown-text">Settings</span>
+    </CDropdownItem>
+    <CDropdownItem @click="deauthenticate">
+      <font-awesome-icon :icon="['fas', 'lock']"/>
+      <span class="dropdown-text">Logout</span>
+    </CDropdownItem>
+  </CDropdown>
 </template>
 
 <script>
-
-  import Vue  from 'vue';
-  // import BNav from 'bootstrap-vue';
-  import BootstrapVue from 'bootstrap-vue';
-  // import {
-  //   BDropdownHeader,
-  //   // BNav
-  // } from 'bootstrap-vue';
-  // Vue.use(BNav);
-  Vue.use(BootstrapVue);
-
-  import {
-    HeaderDropdown as AppHeaderDropdown
-  } from '@coreui/vue';
-
-  import {
-    library
-  } from '@fortawesome/fontawesome-svg-core';
-
-  import {
-    FontAwesomeIcon
-  } from '@fortawesome/vue-fontawesome';
-
+  import {library} from '@fortawesome/fontawesome-svg-core';
   import {fas} from '@fortawesome/free-solid-svg-icons';
-  import {far} from '@fortawesome/free-regular-svg-icons'
-  import {mapGetters} from 'vuex';
-
+  import {far} from '@fortawesome/free-regular-svg-icons';
+  import {DropdownAccountController} from "../../../modules/controllers/DropdownAccountController";
+  import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
   library.add(fas, far);
 
+  const controller = new DropdownAccountController();
   export default {
     name: "DropdownAccount",
-    components: {
-      AppHeaderDropdown,
-      FontAwesomeIcon
-      // BDropdownHeader
-    },
     computed: {
-      ...mapGetters({
-        userName:  'auth/userName',
-        userGroup: 'auth/userGroup',
-        loginId:   'auth/loginId'
-      })
+      user: () => controller.getUserAccount()
+    },
+    components: {
+      FontAwesomeIcon,
     },
     methods: {
-      async logout() {
-        await this.$store.dispatch('auth/logout');
-      }
+      deauthenticate: () => controller.deauthenticate(),
     }
   }
 </script>

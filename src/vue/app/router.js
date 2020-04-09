@@ -5,35 +5,40 @@ import VueRouter from 'vue-router';
 import Dashboard from '../sfc/templates/DashboardTemplate';
 import ItemList from '../sfc/templates/ItemListTemplate';
 import ItemDetail from '../sfc/templates/ItemDetailTemplate';
-import AppContainer from '../sfc/frames/ManagedUserNavigationFrame';
-
-import Todo from '../sfc/pages/TodoPage';
+import ItemEditTemplate from "../sfc/templates/ItemEditTemplate";
+import ItemCreateTemplate from "../sfc/templates/ItemCreateTemplate";
 import Login from '../sfc/templates/LoginTemplate';
 import Error404 from '../sfc/pages/Error404Page';
 import Error500 from '../sfc/pages/Error500Page';
+import UserPage from "../sfc/pages/UserPage";
 
 const routes = [
   {
     path: '/',
     redirect: '/dashboard',
-    component: AppContainer,
+    component: UserPage,
     children: [
       {
         path: 'dashboard',
         component: Dashboard
       },
       {
+        path: 'items/:id',
+        component: ItemDetail,
+        props: route => ({id: route.params.id})
+      },
+      {
+        path: 'items/:id/edit',
+        component: ItemEditTemplate,
+        props: route => ({id: route.params.id})
+      },
+      {
         path: 'items',
         component: ItemList
       },
       {
-        path: 'item/:id',
-        component: ItemDetail,
-        props: (route) => ({id: parseInt(route.params.id, 10)})
-      },
-      {
-        path: 'todo',
-        component: Todo
+        path: 'create/item',
+        component: ItemCreateTemplate
       }
     ]
   },

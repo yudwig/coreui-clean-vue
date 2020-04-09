@@ -1,36 +1,66 @@
-import {Route} from "../entities/Route";
+export enum RouteGroup {
+  System,
+  User
+}
 
 export class RouteConfig {
-    private routes = {
-        dashboard: {
-            name: 'Dashboard',
-            path: '/dashboard',
-        },
-        itemList: {
-            name: 'Item List',
-            path: '/items/'
-        },
-        todoList: {
-            name: 'Todo List',
-            path: '/todo'
-        },
-        login: {
-            name: 'Login',
-            path: '/login'
-        },
-        error404: {
-            name: '404 Error',
-            path: '/404'
-        },
-        error500: {
-            name: '500 Error',
-            path: '/500'
-        }
-    };
-
-    public get(token: string): Route {
-        const route = this.routes[token];
-        return new Route(route.name, route.path);
+  readonly routes = [
+    {
+      name: 'dashboard',
+      title: 'Dashboard',
+      path: '/dashboard',
+      group: RouteGroup.User,
+      isShowNavLink: true
+    },
+    {
+      name: 'itemList',
+      title: 'Items',
+      path: '/items',
+      group: RouteGroup.User,
+      isShowNavLink: true
+    },
+    {
+      name: 'itemCreate',
+      title: 'New Item',
+      path: '/create/item',
+      group: RouteGroup.User,
+      isShowNavLink: false
+    },
+    {
+      name: 'itemEdit',
+      title: 'Item Edit',
+      path: '/items/{id}/edit',
+      group: RouteGroup.User,
+      isShowNavLink: false
+    },
+    {
+      name: 'itemDetail',
+      title: 'Item Detail',
+      path: '/items/{id}',
+      group: RouteGroup.User,
+      isShowNavLink: false
+    },
+    {
+      name: 'login',
+      title: 'Login',
+      path: '/login',
+      group: RouteGroup.System,
+      isShowNavLink: false
+    },
+    {
+      name: 'error404',
+      title: '404 Error',
+      path: '/404',
+      group: RouteGroup.System,
+      isShowNavLink: false
+    },
+    {
+      name: 'error500',
+      title: '500 Error',
+      path: '/500',
+      group: RouteGroup.System,
+      isShowNavLink: false
     }
+  ];
 }
 

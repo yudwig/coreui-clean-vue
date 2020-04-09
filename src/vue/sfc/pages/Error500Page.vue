@@ -15,7 +15,11 @@
 </template>
 
 <script>
-    export default {
-        name: 'Error500'
-    };
+  export default {
+      name: 'Error500'
+  };
 </script>
+
+<style lang="scss">
+  @import 'src/assets/scss/index';
+</style>

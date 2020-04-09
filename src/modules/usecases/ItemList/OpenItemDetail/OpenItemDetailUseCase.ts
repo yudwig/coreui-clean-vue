@@ -1,3 +1,3 @@
 export interface OpenItemDetailUseCase {
-    handle(id: number);
+  handle(id: string);
 }

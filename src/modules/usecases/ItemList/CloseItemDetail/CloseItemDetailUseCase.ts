@@ -1,3 +1,3 @@
 export interface CloseItemDetailUseCase {
-    handle();
+  handle();
 }

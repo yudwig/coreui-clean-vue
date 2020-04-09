@@ -1,14 +1,27 @@
-
-@import '~@coreui/coreui/scss/variables/colors';
-@import '~@coreui/coreui/scss/variables/bootstrap/variables';
-
-.dropdown-item {
-  svg {
-    display: inline-block;
-    width: 20px;
-    margin-right: 10px;
-    color: $dropdown-border-color;
-    text-align: center;
-  }
-}
+//@import '~@coreui/coreui/scss/variables/colors';
+////@import '~@coreui/coreui/scss/variables/bootstrap/variables';
+//
+//.c-header {
+//  .dropdown-item {
+//    color: #4f5d73;
+//    svg {
+//      display: inline-block;
+//      width: 20px;
+//      margin-right: 10px;
+//      color: $dropdown-border-color;
+//      text-align: center;
+//    }
+//    &:hover {
+//      min-width: 0;
+//    }
+//  }
+//  .dropdown-text {
+//    cursor: auto;
+//    font-weight: normal;
+//  }
+//  .dropdown-menu {
+//    border: 0;
+//    box-shadow: 0 4px 5px 0 rgba(60,75,100,.14), 0 1px 10px 0 rgba(60,75,100,.12), 0 2px 4px -1px rgba(60,75,100,.2);
+//  }
+//}
 

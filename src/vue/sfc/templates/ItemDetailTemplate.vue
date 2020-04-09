@@ -1,7 +1,10 @@
 <template>
   <div class="page-body">
     <div class="detail-container">
-      <ItemDetailOrganism :item="item"/>
+      <ItemDetailOrganism
+        :item="item.item"
+        @itemDeleted="openDeleteResultPage"
+      />
     </div>
   </div>
 </template>
@@ -13,15 +16,31 @@
 
   export default {
     name: "ItemDetailTemplate",
-    components: {ItemDetailOrganism},
+    components: {
+      ItemDetailOrganism
+    },
     props: {
       id: {
-        type: Number
+        type: String
       }
     },
+    created() {
+      console.log('this.id:', this.id);
+      controller.findItem(this.id);
+    },
     computed: {
-      item() {
-        return controller.getItem(this.id)
+      item: function() {
+        return controller.getItem();
+      }
+    },
+    methods: {
+      openEditPage() {
+        console.log('openEditPage is called.');
+        controller.openEditPage(this.id);
+      },
+      openDeleteResultPage() {
+        console.log('openDeleteResultPage is called.');
+        controller.openDeleteResultPage();
       }
     }
   }

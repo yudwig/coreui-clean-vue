@@ -1,19 +1,19 @@
 import {CloseItemDetailUseCase} from "./CloseItemDetailUseCase";
-import {ItemListStoreInterface} from "../../../stores/ItemListStoreInterface";
-import {VuexItemListStoreAdaptor} from "../../../../vue/stores/VuexItemListStoreAdaptor";
+import {ItemListViewStateInterface} from "../../../states/ItemListViewStateInterface";
+import {VuexItemListViewStateAdapter} from "../../../../vue/states/VuexItemListViewStateAdapter";
 
 export class CloseItemDetailInteractor implements CloseItemDetailUseCase {
 
-    private itemListStore: ItemListStoreInterface;
+  private itemListStore: ItemListViewStateInterface;
 
-    constructor() {
-        this.itemListStore = new VuexItemListStoreAdaptor();
-    }
+  constructor() {
+    this.itemListStore = new VuexItemListViewStateAdapter();
+  }
 
-    public handle() {
-        if (this.itemListStore.getOpenedItem() === null) {
-            return;
-        }
-        this.itemListStore.setOpenedItem(null);
+  public handle() {
+    if (this.itemListStore.getOpenedItem() === null) {
+      return;
     }
+    this.itemListStore.setOpenedItem(null);
+  }
 }

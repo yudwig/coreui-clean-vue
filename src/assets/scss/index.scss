@@ -1,0 +1,15 @@
+@import "app-colors";
+$enable-shadows: true;
+@import '~@coreui/coreui/scss/coreui.scss';
+$enable-shadows: true;
+@import '~@coreui/coreui/scss/bootstrap.scss';
+//@import '~@coreui/icons/scss/free/free-icons';
+
+/* Import Simple Line Icons Set */
+$simple-line-font-path: '~simple-line-icons/fonts/';
+@import '~simple-line-icons/scss/simple-line-icons.scss';
+/* Import Bootstrap Vue Styles */
+@import '~bootstrap-vue/dist/bootstrap-vue.css';
+@import 'src/assets/scss/style';
+@import 'src/assets/scss/dropdown-icons-style';
+

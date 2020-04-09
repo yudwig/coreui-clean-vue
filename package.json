@@ -14,7 +14,7 @@
       }
     },
     "testMatch": [
-      "**/*.test.ts"
+      "/**/*.test.ts"
     ]
   },
   "scripts": {
@@ -22,15 +22,23 @@
     "build": "webpack",
     "test": "jest"
   },
+  "resolutions": {
+    "jss": "^10.1.1",
+    "react-jss": "^10.1.1"
+  },
   "dependencies": {
-    "@coreui/coreui": "^2.1.12",
-    "@coreui/icons": "^0.3.0",
-    "@coreui/vue": "^2.1.2",
+    "@coreui/coreui": "^3.0.0",
+    "@coreui/icons": "^1.0.1",
+    "@coreui/vue": "^3.0.5",
     "@fortawesome/fontawesome-svg-core": "^1.2.22",
     "@fortawesome/free-regular-svg-icons": "^5.10.2",
     "@fortawesome/free-solid-svg-icons": "^5.10.2",
     "@fortawesome/vue-fontawesome": "^0.1.7",
     "bootstrap-vue": "^2.0.0-rc.28",
+    "core-js": "3",
+    "dexie": "^2.0.4",
+    "js-cookie": "^2.2.1",
+    "popper": "^1.0.1",
     "simple-line-icons": "^2.4.1",
     "vue": "^2.6.10",
     "vue-router": "^3.1.2"
