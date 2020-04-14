@@ -1,10 +1,7 @@
 import {UserAccount} from "../../entities/UserAccount";
-
-interface OutputInterface {
-  err: Error
-}
+import {ModuleCommandResponse} from "../../entities/ModuleCommandResponse";
 
 export interface AuthenticationRepositoryInterface {
-  authenticate(userAccount: UserAccount): OutputInterface;
-  deauthenticate(): OutputInterface;
+  authenticate(userAccount: UserAccount): ModuleCommandResponse;
+  deauthenticate(): ModuleCommandResponse;
 }

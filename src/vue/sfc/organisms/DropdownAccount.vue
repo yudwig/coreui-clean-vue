@@ -38,21 +38,28 @@
   import {library} from '@fortawesome/fontawesome-svg-core';
   import {fas} from '@fortawesome/free-solid-svg-icons';
   import {far} from '@fortawesome/free-regular-svg-icons';
-  import {DropdownAccountController} from "../../../modules/controllers/DropdownAccountController";
   import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
   library.add(fas, far);
 
-  const controller = new DropdownAccountController();
   export default {
     name: "DropdownAccount",
+    data() {
+      return {
+        controller: this.getProvider().provide('controller/dropdownAccount')
+      }
+    },
     computed: {
-      user: () => controller.getUserAccount()
+      user() {
+        return this.controller.getUserAccount();
+      }
     },
     components: {
       FontAwesomeIcon,
     },
     methods: {
-      deauthenticate: () => controller.deauthenticate(),
+      deauthenticate() {
+        return this.controller.deauthenticate();
+      }
     }
   }
 </script>

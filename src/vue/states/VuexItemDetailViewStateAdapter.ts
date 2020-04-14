@@ -3,6 +3,7 @@ import {Item} from "../../modules/entities/Item";
 import {VuexItemDetailViewState as state} from "./VuexItemDetailViewState";
 
 export class VuexItemDetailViewStateAdapter implements ItemDetailViewStateInterface {
+
   getItem(): Item {
     return state.getters['item'];
   }

@@ -11,8 +11,6 @@
 
 <script>
   import ItemFormOrganism from "../organisms/ItemFormOrganism";
-  import {ItemEditController} from "../../../modules/controllers/ItemEditController";
-  const controller = new ItemEditController();
 
   export default {
     name: 'ItemEditTemplate',
@@ -24,19 +22,24 @@
         type: String
       }
     },
+    data () {
+      return {
+        controller: this.getProvider().provide('controller/itemEdit')
+      }
+    },
     mounted() {
-      console.log('item edit mounted is called.');
-      controller.findItem(this.id);
+      this.controller.findItem(this.id);
     },
     computed: {
-      item: () => controller.getItem()
+      item() {
+        return this.controller.getItem();
+      }
     },
     methods: {
       register(form) {
         if (confirm('Do you want to update this item?')) {
-          console.log('received form: ', form);
-          // controller.updateItem(form);
-          controller.updateItem({
+          this.debug('received form: ', form);
+          this.controller.updateItem({
             title: form.title,
             comment: form.comment,
             imageUrl: form.imageUrl

@@ -1,30 +1,35 @@
-import {VuexUserAuthState as store} from "./VuexAuthState";
+import {VuexUserAuthState as state} from "./VuexAuthState";
 import {UserAuthStateInterface} from "../../modules/states/UserAuthStateInterface";
 import {User} from "../../modules/entities/User";
+import {UserAuthMessage} from "../../modules/presentations/UserAuth/UserAuthPresentation";
 
 export class VuexUserAuthStateAdaptor implements UserAuthStateInterface {
 
-  getAuthError(): Error {
-    return store.getters['authError'];
-  }
-
-  setAuthError(err: Error) {
-    store.dispatch('setAuthError', err);
+  getAuthErrorMessage(): UserAuthMessage.Message {
+    return state.getters['authErrorMessage'];
   }
 
   clearAuthError() {
-    store.dispatch('clearAuthError');
+    state.dispatch('clearAuthError');
   }
 
   getLoginUser(): User {
-    return store.getters['loginUser'];
+    return state.getters['loginUser'];
   }
 
   setLoginUser(user: User) {
-    store.dispatch('setLoginUser', user);
+    state.dispatch('setLoginUser', user);
   }
 
   clearLoginUser() {
-    store.dispatch('clearLoginUser');
+    state.dispatch('clearLoginUser');
+  }
+
+  isAuthError(): boolean {
+    return state.getters['isAuthError'];
+  }
+
+  setAuthError(payload: {isAuthError: boolean, message: UserAuthMessage.Message}) {
+    state.dispatch('setAuthError', payload);
   }
 }

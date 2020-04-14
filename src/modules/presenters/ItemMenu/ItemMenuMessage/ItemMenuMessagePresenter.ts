@@ -1,16 +1,18 @@
 import {ItemMenuMessagePresenterInterface} from "./ItemMenuMessagePresenterInterface";
-import {
-  ItemMenuMessage,
-  ItemMenuMessagePresentation
-} from "../../../presentations/ItemMenu/ItemMenuMessagePresentation";
+import {ItemMenuMessage, ItemMenuMessagePresentation} from "../../../presentations/ItemMenu/ItemMenuMessagePresentation";
 import {ItemMenuStateInterface} from "../../../states/ItemMenuStateInterface";
+import {ModuleSupportInterface} from "../../../supports/ModuleSupportInterface";
 
 export class ItemMenuMessagePresenter implements ItemMenuMessagePresenterInterface {
 
   private itemMenuState: ItemMenuStateInterface;
+  private support: ModuleSupportInterface;
 
-  constructor(itemMenuState: ItemMenuStateInterface) {
-    this.itemMenuState = itemMenuState;
+  constructor(modules: {
+    itemMenuState: ItemMenuStateInterface,
+    support: ModuleSupportInterface
+  }) {
+    Object.assign(this, modules);
   }
 
   format(): ItemMenuMessagePresentation {

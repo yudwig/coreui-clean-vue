@@ -1,6 +1,6 @@
-import {UserAccountStringGateway} from "../../src/modules/gateways/UserAccount/UserAccountStringGateway";
+import {UserAccountGateway} from "../../src/modules/gateways/UserAccount/UserAccountGateway";
 
-const adapter = new UserAccountStringGateway();
+const adapter = new UserAccountGateway();
 
 test("empty UserIdPort", () => {
     let res = adapter.convert("", "");

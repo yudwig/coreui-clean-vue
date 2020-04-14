@@ -1,29 +1,31 @@
 import {OpenItemEditPageUseCase} from "./OpenItemEditPageUseCase";
 import {RouteRepositoryInterface} from "../../../repositories/Route/RouteRepositoryInterface";
 import {UrlRepositoryInterface} from "../../../repositories/Url/UrlRepositoryInterface";
+import {ModuleSupportInterface} from "../../../supports/ModuleSupportInterface";
 
 export class PushOpenItemEditPageInteractor implements OpenItemEditPageUseCase {
 
   private routeRepository: RouteRepositoryInterface;
   private urlRepository: UrlRepositoryInterface;
+  private support: ModuleSupportInterface;
 
-  constructor(
+  constructor(modules: {
     routeRepository: RouteRepositoryInterface,
-    urlRepository: UrlRepositoryInterface
-  ) {
-    this.routeRepository = routeRepository;
-    this.urlRepository = urlRepository;
+    urlRepository: UrlRepositoryInterface,
+    support: ModuleSupportInterface
+  }) {
+    Object.assign(this, modules);
   }
 
   handle(id: string) {
     const routeRepositoryRes = this.routeRepository.findByName('itemEdit', {
       id: id
     });
-    console.log(routeRepositoryRes);
+    this.support.debug(routeRepositoryRes);
     if (routeRepositoryRes.err) {
-      console.log('err.', routeRepositoryRes);
+      this.support.error('err.', routeRepositoryRes);
       return false;
     }
-    this.urlRepository.pushRoute(routeRepositoryRes.data);
+    this.urlRepository.pushTransition(routeRepositoryRes.data);
   }
 }

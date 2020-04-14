@@ -1,53 +1,53 @@
 import {OpenItemDetailUseCase} from "./OpenItemDetailUseCase";
 import {ItemListViewStateInterface} from "../../../states/ItemListViewStateInterface";
-import {VuexItemListViewStateAdapter} from "../../../../vue/states/VuexItemListViewStateAdapter";
 import {ItemRepositoryInterface} from "../../../repositories/Item/ItemRepositoryInterface";
-import {MockItemRepository} from "../../../repositories/Item/MockItemRepository";
-import {UrlRepositoryInterface} from "../../../repositories/Url/UrlRepositoryInterface";
-import {UrlRepository} from "../../../repositories/Url/UrlRepository";
-import {UrlTranslator} from "../../../translaters/Url/UrlTranslator";
-import {UrlGateway} from "../../../gateways/Url/UrlGateway";
-import {UrlFactory} from "../../../factories/Url/UrlFactory";
-import {VueRouterUrlDriver} from "../../../../vue/drivers/VueRouterUrlDriver";
 import {ItemGatewayInterface} from "../../../gateways/Item/ItemGatewayInterface";
-import {ItemGateway} from "../../../gateways/Item/ItemGateway";
+import {ModuleSupportInterface} from "../../../supports/ModuleSupportInterface";
+import {RouteRepositoryInterface} from "../../../repositories/Route/RouteRepositoryInterface";
+import {UrlRepositoryInterface} from "../../../repositories/Url/UrlRepositoryInterface";
 
 export class OpenItemDetailInteractor implements OpenItemDetailUseCase {
 
   private itemGateway: ItemGatewayInterface;
-  private itemListStore: ItemListViewStateInterface;
+  private itemListState: ItemListViewStateInterface;
   private itemRepository: ItemRepositoryInterface;
+  private routeRepository: RouteRepositoryInterface;
   private urlRepository: UrlRepositoryInterface;
+  private support: ModuleSupportInterface;
 
-  constructor() {
-    this.itemListStore = new VuexItemListViewStateAdapter();
-    this.itemRepository = new MockItemRepository();
-    this.urlRepository = new UrlRepository(
-      new VueRouterUrlDriver(),
-      new UrlTranslator(
-        new UrlGateway(),
-        new UrlFactory()
-      )
-    );
-    this.itemGateway = new ItemGateway();
+  constructor(modules: {
+    itemGateway: ItemGatewayInterface,
+    itemListState: ItemListViewStateInterface,
+    itemRepository: ItemRepositoryInterface,
+    routeRepository: RouteRepositoryInterface,
+    urlRepository: UrlRepositoryInterface,
+    support: ModuleSupportInterface
+  }) {
+    Object.assign(this, modules);
   }
 
   public handle(id: string) {
-
     const gatewayRes = this.itemGateway.convert({
       id: id
     });
     if (gatewayRes.err) {
+      this.support.error(gatewayRes.err);
       return false;
     }
     const repositoryRes = this.itemRepository.find(gatewayRes.data.id);
     if (repositoryRes.err) {
+      this.support.error(repositoryRes.err);
       return false;
     }
-    this.itemListStore.setOpenedItem(repositoryRes.data);
-
-
-    window.history.pushState(null, null, '/items/' + id);
-    // this.routerDriver.push('/items/' + id, {});
+    this.itemListState.setOpenedItem(repositoryRes.data);
+    const routeRes = this.routeRepository.findByName('itemDetail', {
+      id: id
+    });
+    if (routeRes.err) {
+      this.support.error(routeRes.err);
+      return false;
+    }
+    this.support.debug('route: ', routeRes.data);
+    this.urlRepository.push(routeRes.data);
   }
 }

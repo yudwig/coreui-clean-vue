@@ -1,17 +1,12 @@
 import {User} from "../../entities/User";
 import {UserId} from "../../valueobjects/UserId";
-
-interface OutputInterface {
-  data: {
-    user: User
-  },
-  err: Error
-}
+import {ModuleQueryResponse} from "../../entities/ModuleQueryResponse";
+import {ModuleCommandResponse} from "../../entities/ModuleCommandResponse";
 
 export interface UserRepositoryInterface {
-  get(): OutputInterface;
-  find(userId: UserId): OutputInterface;
-  create(user: User): OutputInterface;
-  delete(userId: UserId): OutputInterface;
-  update(userId: UserId, user: User): OutputInterface;
+  get(): ModuleQueryResponse<User>;
+  find(userId: UserId): ModuleQueryResponse<User>;
+  create(user: User): ModuleCommandResponse;
+  delete(userId: UserId): ModuleCommandResponse;
+  update(userId: UserId, user: User): ModuleCommandResponse;
 }

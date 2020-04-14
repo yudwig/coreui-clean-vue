@@ -3,6 +3,7 @@ import {UrlDirectories} from "../valueobjects/UrlDirectories";
 import {UrlParameters} from "../valueobjects/UrlParameters";
 
 export class Url {
+
   readonly href: UrlHref;
   readonly directories: UrlDirectories;
   readonly parameters: UrlParameters;

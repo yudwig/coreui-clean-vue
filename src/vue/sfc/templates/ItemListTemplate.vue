@@ -15,7 +15,6 @@
     <div class="detail-container" v-if="detailItem">
       <ItemDetailOrganism
         :item="detailItem"
-        @closeButtonClicked="closeDetail"
         @itemDeleted="refreshItems"
       />
     </div>
@@ -25,9 +24,8 @@
 <script>
   import ItemDetailOrganism from "../organisms/ItemDetailOrganism.vue";
   import ItemThumbnailOrganism from "../organisms/ItemThumbnailOrganism.vue";
-  import {ItemListController} from "../../../modules/controllers/ItemListController";
   import CloseButtonAtom from "../atoms/CloseButtonAtom";
-  const controller = new ItemListController();
+
   export default {
     name: "ItemList",
     props: {
@@ -44,45 +42,50 @@
       ItemThumbnailOrganism,
       CloseButtonAtom
     },
+    data() {
+      return {
+        controller: this.getProvider().provide('controller/itemList')
+      }
+    },
     computed: {
-      items: () => controller.getItems(),
-      // detailItem: () => controller.getOpenedItem()
-      detailItem: function () {
-        console.log(controller.getOpenedItem());
-        return controller.getOpenedItem();
+      items() {
+        return this.controller.getItems();
       },
-      message: () => controller.getMessage(),
-      href: () => location.href,
-      url() {
-        return controller.getUrl();
+      detailItem() {
+        this.debug(this.controller.getOpenedItem());
+        return this.controller.getOpenedItem();
       },
-      location() {
-        return window.location;
+      message() {
+        return this.controller.getMessage();
       }
     },
     mounted() {
-      window.addEventListener('popstate', () => controller.popStateCallback(), true);
+      window.addEventListener('popstate', () => this.controller.popStateCallback(), true);
     },
     destroyed() {
-      window.removeEventListener('popstate', () => controller.popStateCallback(), true);
+      window.removeEventListener('popstate', () => this.controller.popStateCallback(), true);
     },
     created() {
-      controller.searchItems();
-      controller.initState();
+      this.controller.searchItems();
+      this.controller.initState();
     },
     methods: {
-      openDetail: id => controller.openItem(id),
-      closeDetail: () => controller.closeItem(),
+      openDetail(id) {
+        return this.controller.openItem(id);
+      },
+      closeDetail() {
+        return this.controller.closeItem();
+      },
       refreshItems() {
         this.closeDetail();
-        controller.searchItems();
+        this.controller.searchItems();
       }
     },
     watch: {
       navLinkClickedMessage: {
         handler() {
-          console.log('message received.', this.navLinkClickedMessage);
-          controller.initState();
+          this.debug('message received.', this.navLinkClickedMessage);
+          this.controller.initState();
         }
       }
     }

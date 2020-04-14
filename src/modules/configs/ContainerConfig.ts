@@ -1,8 +1,6 @@
-import {MockContainer} from "../containers/MockContainer";
+import {Container} from "../containers/Container";
 
 export const ContainerConfig = {
-  containers: {
-    mockContainer: MockContainer
-  }
+  container: Container
 };
 

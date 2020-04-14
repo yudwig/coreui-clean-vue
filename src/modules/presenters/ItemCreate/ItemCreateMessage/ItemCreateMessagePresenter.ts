@@ -1,13 +1,18 @@
 import {ItemCreateMessagePresenterInterface} from "./ItemCreateMessagePresenterInterface";
 import {ItemCreateViewStateInterface} from "../../../states/ItemCreateViewStateInterface";
 import {ItemCreateMessage, ItemCreateMessagePresentation} from "../../../presentations/ItemCreate/ItemCreateMessagePresentation";
+import {ModuleSupportInterface} from "../../../supports/ModuleSupportInterface";
 
 export class ItemCreateMessagePresenter implements ItemCreateMessagePresenterInterface {
 
   private itemCreateState: ItemCreateViewStateInterface;
+  private support: ModuleSupportInterface;
 
-  constructor(itemCreateState: ItemCreateViewStateInterface) {
-    this.itemCreateState = itemCreateState;
+  constructor(modules: {
+    itemCreateState: ItemCreateViewStateInterface,
+    support: ModuleSupportInterface
+  }) {
+    Object.assign(this, modules);
   }
 
   format(): ItemCreateMessagePresentation {

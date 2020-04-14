@@ -1,14 +1,10 @@
 import {AuthenticateUseCase} from "./AuthenticateUseCase";
 import {UserAuthStateInterface} from "../../../states/UserAuthStateInterface";
-import {UserAccountTranslatorInterface} from "../../../translaters/UserAccount/UserAccountTranslatorInterface";
-import {UserAccountTranslator} from "../../../translaters/UserAccount/UserAccountTranslator";
-import {UserAccountStringGateway} from "../../../gateways/UserAccount/UserAccountStringGateway";
-import {UserAccountFactory} from "../../../factories/UserAccount/UserAccountFactory";
+import {UserAccountTranslatorInterface} from "../../../translators/UserAccount/UserAccountTranslatorInterface";
 import {AuthenticationRepositoryInterface} from "../../../repositories/Authentication/AuthenticationRepositoryInterface";
-import {MockAuthenticationRepository} from "../../../repositories/Authentication/MockAuthenticationRepository";
-import {VuexUserAuthStateAdaptor} from "../../../../vue/states/VuexAuthStateAdapter";
 import {UserRepositoryInterface} from "../../../repositories/User/UserRepositoryInterface";
-import {MockUserRepository} from "../../../repositories/User/MockUserRepository";
+import {ModuleSupportInterface} from "../../../supports/ModuleSupportInterface";
+import {UserAuthMessage} from "../../../presentations/UserAuth/UserAuthPresentation";
 
 export class AuthenticateFromSessionCookieInteractor implements AuthenticateUseCase {
 
@@ -16,39 +12,48 @@ export class AuthenticateFromSessionCookieInteractor implements AuthenticateUseC
   private userAccountTranslator: UserAccountTranslatorInterface;
   private authenticationRepository: AuthenticationRepositoryInterface;
   private userRepository: UserRepositoryInterface;
+  private support: ModuleSupportInterface;
 
-  constructor() {
-    this.authState = new VuexUserAuthStateAdaptor();
-    this.userAccountTranslator = new UserAccountTranslator(
-      new UserAccountFactory(),
-      new UserAccountStringGateway()
-    );
-    this.authenticationRepository = new MockAuthenticationRepository();
-    this.userRepository = new MockUserRepository();
+  constructor(modules: {
+    authState: UserAuthStateInterface,
+    userAccountTranslator: UserAccountTranslatorInterface,
+    authenticationRepository: AuthenticationRepositoryInterface,
+    userRepository: UserRepositoryInterface,
+    support: ModuleSupportInterface
+  }) {
+    Object.assign(this, modules);
   }
 
   handle(userId: string, userPassword: string) {
-
     let res;
     res = this.userAccountTranslator.translate(userId, userPassword);
     if (res.err) {
-      this.authState.setAuthError(res.err);
+      this.support.error(res.err);
+      this.authState.setAuthError({
+        isAuthError: true,
+        message: UserAuthMessage.Message.FORMAT_ERROR
+      });
       return false;
     }
-
-    res = this.authenticationRepository.authenticate(res.data.userAccount);
+    res = this.authenticationRepository.authenticate(res.data);
     if (res.err) {
-      this.authState.setAuthError(res.err);
+      this.support.error(res.err);
+      this.authState.setAuthError({
+        isAuthError: true,
+        message: UserAuthMessage.Message.LOGIN_ERROR
+      });
       return false;
     }
-
     res = this.userRepository.get();
     if (res.err) {
-      this.authState.setAuthError(res.err);
+      this.support.error(res.err);
+      this.authState.setAuthError({
+        isAuthError: true,
+        message: UserAuthMessage.Message.LOGIN_ERROR
+      });
       return false;
     }
-
-    this.authState.setLoginUser(res.data.user);
+    this.authState.setLoginUser(res.data);
     return true;
   }
 }

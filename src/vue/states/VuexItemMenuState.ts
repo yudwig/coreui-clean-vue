@@ -1,7 +1,7 @@
 import Vue from 'vue';
-Vue.use(Vuex);
 import Vuex from 'vuex';
 import {ItemMenuMessage} from "../../modules/presentations/ItemMenu/ItemMenuMessagePresentation";
+Vue.use(Vuex);
 
 const states = {
   message: null

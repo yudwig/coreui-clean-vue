@@ -29,10 +29,10 @@
 </template>
 
 <script>
-    import Vue from 'vue';
-    export default Vue.extend({
-        created() {
-          console.log("created is called.");
-        }
-    });
+  import Vue from 'vue';
+  export default Vue.extend({
+    created() {
+      this.debug("created is called.");
+    }
+  });
 </script>

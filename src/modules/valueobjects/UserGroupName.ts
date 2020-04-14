@@ -1,4 +1,5 @@
 export class UserGroupName {
+
   readonly value: string;
 
   constructor(value: string) {

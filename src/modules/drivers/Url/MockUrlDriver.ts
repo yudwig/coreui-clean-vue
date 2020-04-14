@@ -1,12 +1,17 @@
 import {UrlDriverInterface} from "./UrlDriverInterface";
 import {ModuleQueryResponse} from "../../entities/ModuleQueryResponse";
 import {ModuleCommandResponse} from "../../entities/ModuleCommandResponse";
+import {ModuleSupportInterface} from "../../supports/ModuleSupportInterface";
 
 export class MockUrlDriver implements UrlDriverInterface {
 
   private history: string[];
+  private support: ModuleSupportInterface;
 
-  constructor() {
+  constructor(modules: {
+    support: ModuleSupportInterface
+  }) {
+    Object.assign(this, modules);
     this.history = [];
   }
 

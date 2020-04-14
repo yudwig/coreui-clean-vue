@@ -1,7 +1,7 @@
-import {UserStringGateway} from "../../src/modules/gateways/User/UserStringGateway";
+import {UserGateway} from "../../src/modules/gateways/User/UserGateway";
 import {UserId} from "../../src/modules/valueobjects/UserId";
 
-const gateway = new UserStringGateway();
+const gateway = new UserGateway();
 
 test("id is full", () => {
   const res = gateway.convert("guest@example.com", "Guest");

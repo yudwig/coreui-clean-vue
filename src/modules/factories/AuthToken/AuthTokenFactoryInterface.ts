@@ -1,14 +1,8 @@
 import {AuthToken} from "../../entities/AuthToken";
 import {AuthTokenString} from "../../valueobjects/AuthTokenString";
 import {Time} from "../../valueobjects/Time";
-
-interface OutputInterface {
-  data: {
-    token: AuthToken,
-  },
-  err: Error
-}
+import {ModuleQueryResponse} from "../../entities/ModuleQueryResponse";
 
 export interface AuthTokenFactoryInterface {
-  create(tokenString: AuthTokenString, expireTime: Time): OutputInterface;
+  create(tokenString: AuthTokenString, expireTime: Time): ModuleQueryResponse<AuthToken>;
 }

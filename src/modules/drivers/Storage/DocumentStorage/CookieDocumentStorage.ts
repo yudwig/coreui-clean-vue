@@ -1,65 +1,61 @@
 import {DocumentStorageInterface} from "./DocumentStorageInterface";
 import {CookieInterface} from "../../Cookie/CookieInterface";
-import {JsCookie} from "../../Cookie/JsCookie";
+import {ModuleSupportInterface} from "../../../supports/ModuleSupportInterface";
+import {ModuleCommandResponse} from "../../../entities/ModuleCommandResponse";
+import {ModuleQueryResponse} from "../../../entities/ModuleQueryResponse";
 
 export class CookieDocumentStorage implements DocumentStorageInterface {
 
   private cookie: CookieInterface;
+  private support: ModuleSupportInterface;
 
-  constructor() {
-    this.cookie = new JsCookie();
+  constructor(modules: {
+    cookie: CookieInterface,
+    support: ModuleSupportInterface
+  }) {
+    Object.assign(this, modules);
   }
 
-  delete(namespace: string, key: string) {
+  public delete(namespace: string, key: string): ModuleCommandResponse {
     try {
       this.cookie.remove(key);
     } catch(e) {
-      return {data: null, err: e};
+      return new ModuleCommandResponse(e);
     }
-    return {data: null, err: null};
+    return new ModuleCommandResponse(null);
   }
 
-  merge(namespace: string, key: string, value: object) {
+  public merge(namespace: string, key: string, value: object): ModuleCommandResponse {
     return undefined;
   }
 
-  read(namespace: string, key: string) {
+  public read(namespace: string, key: string): ModuleQueryResponse<object> {
     let val;
     try {
       val = this.cookie.get(key);
     } catch(e) {
-      return {data: null, err: e};
+      return new ModuleQueryResponse<object>(null, e);
     }
-
     if (!val) {
-      return {data: null, err: null};
+      return new ModuleQueryResponse<object>(null, null);
     }
-
     let json;
     try {
       json = JSON.parse(val);
     } catch(e) {
-      return {data: null, err: e};
+      return new ModuleQueryResponse<object>(null, e);
     }
-
-    return {
-      data: json,
-      err: null
-    };
+    return new ModuleQueryResponse<object>(json);
   }
 
-  write(namespace: string, key: string, value: object) {
+  public write(namespace: string, key: string, value: object): ModuleCommandResponse {
     let json;
     try {
       json = JSON.stringify(value);
       this.cookie.set(key, json, null);
     } catch(e) {
-      return {data: null, err: e};
+      return new ModuleCommandResponse(e);
     }
-
-    return {
-      data: null,
-      err: null
-    };
+    return new ModuleCommandResponse(null);
   }
 }

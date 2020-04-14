@@ -1,6 +1,6 @@
 import {CreateItemAndTransitionInteractor} from "../../src/modules/usecases/ItemCreate/CreateItem/CreateItemAndTransitionInteractor";
 import {MockItemRepository} from "../../src/modules/repositories/Item/MockItemRepository";
-import {ItemCreateQueryTranslator} from "../../src/modules/translaters/ItemCreateQuery/ItemCreateQueryTranslator";
+import {ItemCreateQueryTranslator} from "../../src/modules/translators/ItemCreateQuery/ItemCreateQueryTranslator";
 import {ItemGateway} from "../../src/modules/gateways/Item/ItemGateway";
 import {ItemCreateQueryFactory} from "../../src/modules/factories/ItemCreateQuery/ItemCreateQueryFactory";
 import {StorageQueryBuilder} from "../../src/modules/queries/Storage/StorageQueryBuilder";

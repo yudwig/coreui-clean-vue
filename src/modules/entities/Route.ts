@@ -1,4 +1,5 @@
 export class Route {
+
   readonly name;
   readonly path;
   readonly title;

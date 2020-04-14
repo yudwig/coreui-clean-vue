@@ -5,9 +5,10 @@ import {Route} from "../../entities/Route";
 
 export interface UrlRepositoryInterface {
   get(): ModuleQueryResponse<Url>;
+  push(route: Route): ModuleCommandResponse;
+  replace(route: Route): ModuleCommandResponse;
   pop(): ModuleCommandResponse;
-  replaceByUrl(url: Url): ModuleCommandResponse;
-  replaceByRoute(route: Route): ModuleCommandResponse;
-  pushUrl(url: Url): ModuleCommandResponse;
-  pushRoute(route: Route): ModuleCommandResponse;
+  pushTransition(route: Route): ModuleCommandResponse;
+  replaceTransition(route: Route): ModuleCommandResponse;
+  popTransition(): ModuleCommandResponse;
 }

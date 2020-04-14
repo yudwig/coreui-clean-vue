@@ -1,21 +1,23 @@
 import {DeauthenticateUserUseCase} from "./DeauthenticateUserUseCase";
 import {UserAuthStateInterface} from "../../../states/UserAuthStateInterface";
-import {VuexUserAuthStateAdaptor} from "../../../../vue/states/VuexAuthStateAdapter";
 import {AuthenticationRepositoryInterface} from "../../../repositories/Authentication/AuthenticationRepositoryInterface";
-import {MockAuthenticationRepository} from "../../../repositories/Authentication/MockAuthenticationRepository";
+import {ModuleSupportInterface} from "../../../supports/ModuleSupportInterface";
 
 export class DeauthenticateUserInteractor implements DeauthenticateUserUseCase {
 
   private userAuthState: UserAuthStateInterface;
   private authenticationRepository: AuthenticationRepositoryInterface;
+  private support: ModuleSupportInterface;
 
-  constructor() {
-    this.userAuthState = new VuexUserAuthStateAdaptor();
-    this.authenticationRepository = new MockAuthenticationRepository();
+  constructor(modules: {
+    userAuthState: UserAuthStateInterface,
+    authenticationRepository: AuthenticationRepositoryInterface,
+    support: ModuleSupportInterface
+  }) {
+    Object.assign(this, modules);
   }
 
   handle() {
-    console.log("interactor is called");
     this.authenticationRepository.deauthenticate();
     this.userAuthState.clearLoginUser();
   }

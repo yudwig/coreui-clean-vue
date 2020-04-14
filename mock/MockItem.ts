@@ -3,6 +3,12 @@ import {ItemGatewayInterface} from "../src/modules/gateways/Item/ItemGatewayInte
 import {ItemFactoryInterface} from "../src/modules/factories/Item/ItemFactoryInterface";
 import {ItemGateway} from "../src/modules/gateways/Item/ItemGateway";
 import {ItemFactory} from "../src/modules/factories/Item/ItemFactory";
+import {ConsoleLogRepository} from "../src/modules/repositories/Log/ConsoleLogRepository";
+import {LoggingService} from "../src/modules/services/Logging/LoggingService";
+import {UrlTranslator} from "../src/modules/translators/Url/UrlTranslator";
+import {UrlGateway} from "../src/modules/gateways/Url/UrlGateway";
+import {UrlFactory} from "../src/modules/factories/Url/UrlFactory";
+import {ModuleSupport} from "../src/modules/supports/ModuleSupport";
 
 export class MockItem {
 
@@ -21,7 +27,17 @@ export class MockItem {
   private factory: ItemFactoryInterface;
 
   constructor() {
-    this.gateway = new ItemGateway();
+    const logRepository = new ConsoleLogRepository();
+    const loggingService = new LoggingService({logRepository: logRepository});
+    this.gateway = new ItemGateway({
+      urlTranslator: new UrlTranslator({
+        gateway: new UrlGateway(),
+        factory: new UrlFactory(),
+      }),
+      support: new ModuleSupport({
+        loggingService: loggingService
+      })
+    });
     this.factory = new ItemFactory();
     this.values = this.gateway.convert(this.dbData).data;
     this.item = this.factory.create(this.values).data;

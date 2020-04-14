@@ -1,13 +1,8 @@
 import {AuthToken} from "../../entities/AuthToken";
-
-interface OutputInterface {
-  data: {
-    authToken: AuthToken
-  },
-  err: Error
-}
+import {ModuleQueryResponse} from "../../entities/ModuleQueryResponse";
+import {ModuleCommandResponse} from "../../entities/ModuleCommandResponse";
 
 export interface AuthTokenRepositoryInterface {
-  get(): OutputInterface;
-  set(authToken: AuthToken);
+  get(): ModuleQueryResponse<AuthToken>;
+  set(authToken: AuthToken): ModuleCommandResponse;
 }

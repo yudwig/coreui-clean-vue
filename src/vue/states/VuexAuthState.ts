@@ -1,35 +1,44 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import {User} from "../../modules/entities/User";
+import {UserAuthMessage} from "../../modules/presentations/UserAuth/UserAuthPresentation";
 Vue.use(Vuex);
 
 const states = {
-  authError: null,
+  isAuthError: false,
+  authErrorMessage: null,
   loginUser: null
 };
 
 const mutations = {
-  setAuthError(state, err: Error) {
-    states.authError = err;
+  setIsAuthError(state, isAuthError: boolean) {
+    states.isAuthError = isAuthError;
   },
-  clearAuthError(state) {
-    states.authError = null;
+  setAuthErrorMessage(state, message: UserAuthMessage.Message) {
+    states.authErrorMessage = message;
+  },
+  clearAuthErrorMessage(state) {
+    states.authErrorMessage = null;
+  },
+  clearIsAuthError(state) {
+    states.isAuthError = false;
   },
   setLoginUser(state, user: User) {
     states.loginUser = user;
   },
   clearLoginUser(state) {
-    console.log("clear login user is called. state: ", state, states);
     states.loginUser = null;
   }
 };
 
 const actions = {
-  async setAuthError(context, msg: string) {
-    context.commit('setAuthError', msg);
+  async setAuthError(context, payload: {isAuthError: boolean, message: UserAuthMessage.Message}) {
+    context.commit('setAuthErrorMessage', payload.message);
+    context.commit('setIsAuthError', payload.isAuthError);
   },
   async clearAuthError(context) {
-    context.commit('clearAuthError');
+    context.commit('clearAuthErrorMessage');
+    context.commit('clearIsAuthError');
   },
   async setLoginUser(context, user) {
     context.commit('setLoginUser', user);
@@ -40,7 +49,8 @@ const actions = {
 };
 
 const getters = {
-  authError: () => states.authError,
+  authErrorMessage: () => states.authErrorMessage,
+  isAuthError: () => states.isAuthError,
   loginUser: () => states.loginUser
 };
 

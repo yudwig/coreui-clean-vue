@@ -1,18 +1,39 @@
 import {LoginErrorMessagePresenterInterface} from "./LoginErrorMessagePresenterInterface";
-import {VuexUserAuthStateAdaptor} from "../../../../vue/states/VuexAuthStateAdapter";
+import {UserAuthStateInterface} from "../../../states/UserAuthStateInterface";
+import {ModuleSupportInterface} from "../../../supports/ModuleSupportInterface";
+import {UserAuthMessage, UserAuthPresentation} from "../../../presentations/UserAuth/UserAuthPresentation";
 
 export class LoginErrorMessagePresenter implements LoginErrorMessagePresenterInterface {
 
-  private authState;
+  private userAuthState: UserAuthStateInterface;
+  private support: ModuleSupportInterface;
 
-  constructor() {
-    this.authState = new VuexUserAuthStateAdaptor();
+  constructor(modules: {
+    userAuthState: UserAuthStateInterface,
+    support: ModuleSupportInterface
+  }) {
+    Object.assign(this, modules);
   }
 
-  format(): string {
-    const err = this.authState.getAuthError();
-    console.log("presenter: ", err);
-    return err ? err.message : "";
+  format(): UserAuthPresentation {
+    const message = this.userAuthState.getAuthErrorMessage();
+    switch (message) {
+      case UserAuthMessage.Message.LOGIN_ERROR:
+        return {
+          message: 'Login Failed.',
+          className: UserAuthMessage.ClassName.ERROR
+        };
+      case UserAuthMessage.Message.FORMAT_ERROR:
+        return {
+          message: 'Error. Invalid Format.',
+          className: UserAuthMessage.ClassName.ERROR
+        };
+      default:
+        return {
+          message: '',
+          className: ''
+        }
+    }
   }
 }
 

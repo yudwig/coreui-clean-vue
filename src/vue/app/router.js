@@ -1,7 +1,5 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-
-// Pages
 import Dashboard from '../sfc/templates/DashboardTemplate';
 import ItemList from '../sfc/templates/ItemListTemplate';
 import ItemDetail from '../sfc/templates/ItemDetailTemplate';

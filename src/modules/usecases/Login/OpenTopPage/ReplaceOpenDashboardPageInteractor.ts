@@ -1,26 +1,28 @@
 import {OpenTopPageUseCase} from "./OpenTopPageUseCase";
 import {UrlRepositoryInterface} from "../../../repositories/Url/UrlRepositoryInterface";
 import {RouteRepositoryInterface} from "../../../repositories/Route/RouteRepositoryInterface";
+import {ModuleSupportInterface} from "../../../supports/ModuleSupportInterface";
 
 export class ReplaceOpenDashboardPageInteractor implements OpenTopPageUseCase {
 
   private urlRepository: UrlRepositoryInterface;
   private routeRepository: RouteRepositoryInterface;
+  private support: ModuleSupportInterface;
 
-  constructor(
+  constructor(modules: {
     urlRepository: UrlRepositoryInterface,
-    routeRepository: RouteRepositoryInterface
-  ) {
-    this.urlRepository = urlRepository;
-    this.routeRepository = routeRepository;
+    routeRepository: RouteRepositoryInterface,
+    support: ModuleSupportInterface
+  }) {
+    Object.assign(this, modules);
   }
 
   handle() {
     const res = this.routeRepository.findByName('dashboard');
     if (res.err) {
-      console.log('ReplaceOpenDashboardPageInteractor::handle. system error. res:', res);
+      this.support.error('ReplaceOpenDashboardPageInteractor::handle. system error. res:', res);
       return false;
     }
-    this.urlRepository.replaceByRoute(res.data);
+    this.urlRepository.replaceTransition(res.data);
   }
 }

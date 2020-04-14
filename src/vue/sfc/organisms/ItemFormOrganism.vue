@@ -1,7 +1,6 @@
 <template>
   <CCard class="item-form shadow-sm">
     <CCardHeader>
-<!--      <strong>New Item</strong>-->
       <strong>{{formTitle}}</strong>
     </CCardHeader>
     <CCardBody>
@@ -56,7 +55,6 @@
                 </div>
               </CJumbotron>
             </div>
-            <!--          <img :src="url" @load="revokeUrl(this)">-->
           </CCol>
         </CRow>
       </CForm>
@@ -73,7 +71,6 @@
   import ItemCommentFormAtom from "../atoms/ItemCommentFormAtom";
   import RegisterButtonAtom from "../atoms/RegisterButtonAtom";
   import CancelButtonAtom from "../atoms/CancelButtonAtom";
-
   import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
   import {fas} from '@fortawesome/free-solid-svg-icons';
   import {far} from '@fortawesome/free-regular-svg-icons'
@@ -116,41 +113,37 @@
     watch: {
       item: {
         async handler(newItem, oldItem) {
-          console.log('watch handler is called.', newItem, oldItem);
-          this.form = Object.assign({}, newItem);
+          this.debug('watch handler is called.', newItem, oldItem);
+          if (newItem) {
+            this.debug('form is updated.');
+            this.form = Object.assign({}, newItem);
+          }
         },
         immediate: true
       }
     },
     methods: {
       register() {
-        console.log('register is called.');
-        // console.log(this.form);
-        // this.$emit('register', this.form);
-
+        this.debug('register is called.');
         this.$emit('register', this.form);
       },
       cancel() {
-        // console.log()
-        this.form.imageUrl = 'http://localhost:3000/images/1968.88%20-%20A%20City%20Park.jpeg';
-        // this.item.imageUrl = 'http://localhost:3000/images/1968.88%20-%20A%20City%20Park.jpeg';
-        console.log('cancel is called.');
+        this.debug('cancel is called.');
       },
       onUploadImage(file) {
-        console.log(file);
+        this.debug(file);
         const fileReader = new FileReader();
         fileReader.readAsDataURL(file[0]);
-        console.log('file: ', file[0]);
+        this.debug('file: ', file[0]);
         fileReader.onload = (e) => {
-          // this.form.imageUrl = e.target.result;
           this.form.imageUrl = e.target.result;
-          console.log('dataUrl:', e.target.result);
+          this.debug('dataUrl:', e.target.result);
           this.url = e.target.result;
         }
       },
       handleFileSelect(e) {
         const inputForm = document.getElementById('image-file-input');
-        console.log(this.$refs);
+        this.debug(this.$refs);
         inputForm.click();
       },
       handleDragOver(e) {
@@ -167,7 +160,7 @@
         e.preventDefault();
         this.onUploadImage(e.dataTransfer.files);
         this.isDragging = false;
-        console.log(e);
+        this.debug(e);
       }
     }
   }
@@ -184,7 +177,6 @@
     background-position: center;
     background-repeat: no-repeat;
     background-color: $appBasicBgColor;
-
     /* for upload form's common styles. */
     .image-upload-form {
       position: relative;
@@ -217,14 +209,12 @@
         opacity: 0.6;
       }
     }
-
     .image-upload-form.dragging {
       transition: 0s;
       border-color: $primary;
       border-width: 1px;
       background-color: $gray-100;
     }
-
     .image-upload-form.dragging:after {
       content:'';
       position: absolute;

@@ -1,13 +1,6 @@
-import {AuthTokenString} from "../../valueobjects/AuthTokenString";
-import {Time} from "../../valueobjects/Time";
+import {ModuleQueryResponse} from "../../entities/ModuleQueryResponse";
+import {AuthTokenGatewayOutput} from "./AuthTokenGatewayOutput";
 
 export interface AuthTokenGatewayInterface {
-
-  convert(tokenStringPort: any, expireTimePort: any): {
-    data: {
-      tokenString: AuthTokenString,
-      expireTime: Time
-    },
-    err: Error,
-  }
+  convert(tokenStringPort: string, expireTimePort: string): ModuleQueryResponse<AuthTokenGatewayOutput>
 }

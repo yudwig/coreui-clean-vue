@@ -1,12 +1,17 @@
 import {InitItemCreateStatesUseCase} from "./InitItemCreateStatesUseCase";
 import {ItemCreateViewStateInterface} from "../../../states/ItemCreateViewStateInterface";
+import {ModuleSupportInterface} from "../../../supports/ModuleSupportInterface";
 
 export class InitItemCreateStatesInteractor implements InitItemCreateStatesUseCase {
 
   private itemCreateState: ItemCreateViewStateInterface;
+  private support: ModuleSupportInterface;
 
-  constructor(itemCreateState: ItemCreateViewStateInterface) {
-    this.itemCreateState = itemCreateState;
+  constructor(modules: {
+    itemCreateState: ItemCreateViewStateInterface,
+    support: ModuleSupportInterface
+  }) {
+    Object.assign(this, modules);
   }
 
   handle() {

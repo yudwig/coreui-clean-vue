@@ -23,7 +23,7 @@
     },
     methods: {
       input(value) {
-        console.log('input', value);
+        this.debug('input', value);
         this.$emit('input', value);
       }
     }

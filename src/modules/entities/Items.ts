@@ -1,6 +1,7 @@
 import {Item} from "./Item";
 
 export class Items {
+
   private list: Item[];
 
   constructor(items: Item[]) {

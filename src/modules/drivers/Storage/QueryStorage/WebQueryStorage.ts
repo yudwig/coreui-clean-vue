@@ -4,18 +4,23 @@ import {Operator, WhereQueryElement} from "../../../queries/Storage/WhereQueryEl
 import {WhereQuerySubset} from "../../../queries/Storage/WhereQuerySubset";
 import {WebStorageInterface} from "../../WebStorage/WebStorageInterface";
 import {ModuleQueryResponse} from "../../../entities/ModuleQueryResponse";
-import {SortQueries} from "../../../queries/Storage/SortQueries";
 import {SortOrder, SortQuery} from "../../../queries/Storage/SortQuery";
+import {ModuleSupportInterface} from "../../../supports/ModuleSupportInterface";
+import {ModuleCommandResponse} from "../../../entities/ModuleCommandResponse";
 
 export class WebQueryStorage implements QueryStorageInterface {
 
   private storage: WebStorageInterface;
+  private support: ModuleSupportInterface;
 
-  constructor(webStorage: WebStorageInterface) {
-    this.storage = webStorage;
+  constructor(modules: {
+    storage: WebStorageInterface,
+    support: ModuleSupportInterface
+  }) {
+    Object.assign(this, modules);
   }
 
-  public create(namespace: string, data: object) {
+  public create(namespace: string, data: object): ModuleCommandResponse {
     let items;
     try {
       const json = this.storage.getItem(namespace);
@@ -23,19 +28,19 @@ export class WebQueryStorage implements QueryStorageInterface {
       items.push(data);
       this.storage.setItem(namespace, JSON.stringify(items));
     } catch (e) {
-      return {data: null, err: e};
+      return new ModuleCommandResponse(e);
     }
-    return {data: null, err: null};
+    return new ModuleCommandResponse(null);
   }
 
-  public delete(query: StorageQuery) {
+  public delete(query: StorageQuery): ModuleCommandResponse {
     const items = this.getItems(query.selectQuery.namespace);
     if (items.err) {
-      return {data: null, err: items.err};
+      return new ModuleCommandResponse(items.err);
     }
-    const result = this.execSearch(items, query);
+    const result = this.execSearch(items.data, query);
     this.storage.setItem(query.selectQuery.namespace, JSON.stringify(result.unmatched));
-    return {data: null, err: null};
+    return new ModuleCommandResponse(null);
   }
 
   private multiKeySort(arr: any[], sortQueries: SortQuery[]) {
@@ -54,28 +59,27 @@ export class WebQueryStorage implements QueryStorageInterface {
     });
   }
 
-  public search(query: StorageQuery) {
+  public search(query: StorageQuery): ModuleQueryResponse<object[]> {
     const items = this.getItems(query.selectQuery.namespace);
     if (items.err) {
-      // return {data: null, err: items.err};
       return new ModuleQueryResponse(null, items.err);
     }
-    const searchResult = this.execSearch(items, query);
+    const searchResult = this.execSearch(items.data, query);
     const sorted = this.multiKeySort(searchResult.matched, query.sortQueries.list()) ;
     const limit = query.limitQuery ? query.offsetQuery.count + query.limitQuery.count : Infinity;
     const sliced = sorted.slice(query.offsetQuery.count, limit);
     return new ModuleQueryResponse(sliced);
   }
 
-  private getItems(namespace: string) {
+  private getItems(namespace: string): ModuleQueryResponse<object[]> {
     let items;
     try {
       const json = this.storage.getItem(namespace);
       items = json ? JSON.parse(json) : [];
     } catch (e) {
-      return {data: null, err: e};
+      return new ModuleQueryResponse<object[]>(null, e);
     }
-    return items;
+    return new ModuleQueryResponse<object[]>(items);
   }
 
   private execSearch(items, query: StorageQuery) {
@@ -124,20 +128,20 @@ export class WebQueryStorage implements QueryStorageInterface {
     }
   }
 
-  public update(query: StorageQuery, data: object) {
+  public update(query: StorageQuery, data: object): ModuleCommandResponse {
     const items = this.getItems(query.selectQuery.namespace);
     if (items.err) {
-      return {data: null, err: items.err};
+      return new ModuleCommandResponse(items.err);
     }
-    const result = this.execSearch(items, query);
+    const result = this.execSearch(items.data, query);
     const updated = result.matched.map(item => Object.assign(item, data));
     const newItems = result.unmatched.concat(updated);
     this.storage.setItem(query.selectQuery.namespace, JSON.stringify(newItems));
-    return {data: null, err: null};
+    return new ModuleCommandResponse(null);
   }
 
-  public isset(namespace: string) {
+  public isset(namespace: string): ModuleQueryResponse<boolean>  {
     const item = this.storage.getItem(namespace);
-    return Boolean(item);
+    return new ModuleQueryResponse<boolean>(Boolean(item));
   }
 }

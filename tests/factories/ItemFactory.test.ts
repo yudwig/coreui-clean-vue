@@ -1,9 +1,26 @@
 import {MockItem} from "../../mock/MockItem";
 import {ItemFactory} from "../../src/modules/factories/Item/ItemFactory";
 import {ItemGateway} from "../../src/modules/gateways/Item/ItemGateway";
+import {UrlTranslator} from "../../src/modules/translators/Url/UrlTranslator";
+import {UrlGateway} from "../../src/modules/gateways/Url/UrlGateway";
+import {UrlFactory} from "../../src/modules/factories/Url/UrlFactory";
+import {ModuleSupport} from "../../src/modules/supports/ModuleSupport";
+import {LoggingService} from "../../src/modules/services/Logging/LoggingService";
+import {ConsoleLogRepository} from "../../src/modules/repositories/Log/ConsoleLogRepository";
+
+const logRepository = new ConsoleLogRepository();
+const loggingService = new LoggingService({logRepository: logRepository});
 
 const factory = new ItemFactory();
-const gateway = new ItemGateway();
+const gateway = new ItemGateway({
+  urlTranslator: new UrlTranslator({
+    gateway: new UrlGateway(),
+    factory: new UrlFactory(),
+  }),
+  support: new ModuleSupport({
+    loggingService: loggingService
+  })
+});
 const mock = new MockItem();
 
 test('update', () => {

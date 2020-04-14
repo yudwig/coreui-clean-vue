@@ -1,15 +1,15 @@
 import {CoreUiNavLinksPresenterInterface} from "./CoreUiNavLinksPresenterInterface";
 import {CoreUiNavLinksPresentation} from "../../../presentations/UserPage/CoreUiNavLinksPresentation";
-import {RouteConfig} from "../../../configs/RouteConfig";
 import {UrlRepositoryInterface} from "../../../repositories/Url/UrlRepositoryInterface";
 import {RouteRepositoryInterface} from "../../../repositories/Route/RouteRepositoryInterface";
 import {Route} from "../../../entities/Route";
+import {ModuleSupportInterface} from "../../../supports/ModuleSupportInterface";
 
 export class CoreUiNavLinksPresenter implements CoreUiNavLinksPresenterInterface {
 
   private urlRepository: UrlRepositoryInterface;
   private routeRepository: RouteRepositoryInterface;
-  private routeConfig: RouteConfig;
+  private support: ModuleSupportInterface;
   private navLinkParams = {
     dashboard: {
       icon: 'cil-speedometer',
@@ -22,13 +22,12 @@ export class CoreUiNavLinksPresenter implements CoreUiNavLinksPresenterInterface
     },
   };
 
-  constructor(
+  constructor(modules: {
     urlRepository: UrlRepositoryInterface,
-    routeRepository: RouteRepositoryInterface
-  ) {
-    this.routeConfig = new RouteConfig();
-    this.urlRepository = urlRepository;
-    this.routeRepository = routeRepository;
+    routeRepository: RouteRepositoryInterface,
+    support: ModuleSupportInterface
+  }) {
+    Object.assign(this, modules);
   }
 
   private createNavLinkParam(route: Route, nowRoute: Route) {

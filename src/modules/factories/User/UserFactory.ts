@@ -3,10 +3,20 @@ import {UserId} from "../../valueobjects/UserId";
 import {UserName} from "../../valueobjects/UserName";
 import {UserGroup} from "../../entities/UserGroup";
 import {User} from "../../entities/User";
+import {ModuleSupportInterface} from "../../supports/ModuleSupportInterface";
+import {ModuleQueryResponse} from "../../entities/ModuleQueryResponse";
 
-export class UserFactory implements UserFactoryInterface{
-  create(userId: UserId, userName: UserName, userGroup: UserGroup) {
+export class UserFactory implements UserFactoryInterface {
 
+  private support: ModuleSupportInterface;
+
+  constructor(modules: {
+    support: ModuleSupportInterface
+  }) {
+    Object.assign(this, modules);
+  }
+
+  create(userId: UserId, userName: UserName, userGroup: UserGroup): ModuleQueryResponse<User> {
     let user;
     try {
       user = new User({
@@ -15,17 +25,8 @@ export class UserFactory implements UserFactoryInterface{
         group: userGroup
       });
     } catch(e) {
-      return {
-        data: null,
-        err: e
-      };
+      return new ModuleQueryResponse<User>(null, e);
     }
-
-    return {
-      data: {
-        user: user
-      },
-      err: null
-    };
+    return new ModuleQueryResponse<User>(user);
   }
 }

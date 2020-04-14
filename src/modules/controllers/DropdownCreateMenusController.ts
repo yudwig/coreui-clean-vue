@@ -1,12 +1,16 @@
 import {OpenItemCreatePageUseCase} from "../usecases/DropdownAccount/OpenItemCreatePage/OpenItemCreatePageUseCase";
-import {OpenItemCreatePageInteractor} from "../usecases/DropdownAccount/OpenItemCreatePage/OpenItemCraegePageInteractor";
+import {ModuleSupportInterface} from "../supports/ModuleSupportInterface";
 
 export class DropdownCreateMenusController {
 
   private openItemCreatePageUseCase: OpenItemCreatePageUseCase;
+  private support: ModuleSupportInterface;
 
-  constructor() {
-    this.openItemCreatePageUseCase = new OpenItemCreatePageInteractor();
+  constructor(modules: {
+    openItemCreatePageUseCase: OpenItemCreatePageUseCase,
+    support: ModuleSupportInterface
+  }) {
+    Object.assign(this, modules);
   }
 
   public openItemCreatePage() {

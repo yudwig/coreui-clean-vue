@@ -11,8 +11,6 @@
 
 <script>
   import ItemDetailOrganism from "../organisms/ItemDetailOrganism";
-  import {ItemDetailController} from "../../../modules/controllers/ItemDetailController";
-  const controller = new ItemDetailController();
 
   export default {
     name: "ItemDetailTemplate",
@@ -24,28 +22,28 @@
         type: String
       }
     },
+    data() {
+      return {
+        controller: this.getProvider().provide('controller/itemDetail')
+      }
+    },
     created() {
-      console.log('this.id:', this.id);
-      controller.findItem(this.id);
+      this.debug('this.id:', this.id);
+      this.controller.findItem(this.id);
     },
     computed: {
       item: function() {
-        return controller.getItem();
+        return this.controller.getItem();
       }
     },
     methods: {
-      openEditPage() {
-        console.log('openEditPage is called.');
-        controller.openEditPage(this.id);
-      },
       openDeleteResultPage() {
-        console.log('openDeleteResultPage is called.');
-        controller.openDeleteResultPage();
+        this.debug('openDeleteResultPage is called.');
+        this.controller.openDeleteResultPage();
       }
     }
   }
 </script>
 
 <style scoped>
-
 </style>

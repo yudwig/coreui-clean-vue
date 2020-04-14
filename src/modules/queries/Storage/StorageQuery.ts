@@ -5,6 +5,7 @@ import {SortQueries} from "./SortQueries";
 import {OffsetQuery} from "./OffsetQuery";
 
 export class StorageQuery {
+
   readonly selectQuery: SelectQuery;
   readonly whereQuerySet: WhereQuerySet;
   readonly sortQueries: SortQueries;

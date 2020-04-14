@@ -1,6 +1,7 @@
 import {DomainRangeError} from "../errors/DomainRangeError";
 
 export class UserId {
+
   readonly value: string;
   private minLength = 1;
 

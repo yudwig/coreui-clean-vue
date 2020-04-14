@@ -1,7 +1,9 @@
-import { UrlTranslator } from "../../src/modules/translaters/Url/UrlTranslator";
-import { UrlGateway } from "../../src/modules/gateways/Url/UrlGateway";
-import { UrlFactory } from "../../src/modules/factories/Url/UrlFactory";
-var translator = new UrlTranslator(new UrlGateway(), new UrlFactory());
+"use strict";
+exports.__esModule = true;
+var UrlTranslator_1 = require("../../src/modules/translators/Url/UrlTranslator");
+var UrlGateway_1 = require("../../src/modules/gateways/Url/UrlGateway");
+var UrlFactory_1 = require("../../src/modules/factories/Url/UrlFactory");
+var translator = new UrlTranslator_1.UrlTranslator(new UrlGateway_1.UrlGateway(), new UrlFactory_1.UrlFactory());
 test('include query url', function () {
     var port = { url: 'http://localhost:3000/user/test/items?asdf=w&a&w=1&i=&=5' };
     var url = translator.translate(port);
@@ -39,4 +41,3 @@ test('exclude last directory slash', function () {
     var res2 = translator.translate(port2);
     expect(res1.data.path() === res2.data.path()).toBeTruthy();
 });
-//# sourceMappingURL=/meta/map/tests/entities/Url.test.js.map

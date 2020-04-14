@@ -1,27 +1,27 @@
 import {CloseItemDetailUseCase} from "./CloseItemDetailUseCase";
 import {ItemListViewStateInterface} from "../../../states/ItemListViewStateInterface";
-import {RouteConfig} from "../../../configs/RouteConfig";
-import {RouterDriverInterface} from "../../../drivers/Router/RouterDriverInterface";
-import {VuexItemListViewStateAdapter} from "../../../../vue/states/VuexItemListViewStateAdapter";
-import {VueRouterDriver} from "../../../../vue/drivers/VueRouterDriver";
+import {UrlRepositoryInterface} from "../../../repositories/Url/UrlRepositoryInterface";
+import {ModuleSupportInterface} from "../../../supports/ModuleSupportInterface";
 
 export class BackCloseItemDetailInteractor implements CloseItemDetailUseCase {
 
-  private itemListStore: ItemListViewStateInterface;
-  private routeConfig: RouteConfig;
-  private routerDriver: RouterDriverInterface;
+  private itemListState: ItemListViewStateInterface;
+  private urlRepository: UrlRepositoryInterface;
+  private support: ModuleSupportInterface;
 
-  constructor() {
-    this.itemListStore = new VuexItemListViewStateAdapter();
-    this.routeConfig =  new RouteConfig();
-    this.routerDriver = new VueRouterDriver();
+  constructor(modules: {
+    itemListState: ItemListViewStateInterface,
+    urlRepository: UrlRepositoryInterface,
+    support: ModuleSupportInterface
+  }) {
+    Object.assign(this, modules);
   }
 
   handle() {
-    if (this.itemListStore.getOpenedItem() === null) {
+    if (this.itemListState.getOpenedItem() === null) {
       return;
     }
-    this.itemListStore.setOpenedItem(null);
-    this.routerDriver.pop();
+    this.itemListState.setOpenedItem(null);
+    this.urlRepository.pop();
   }
 }

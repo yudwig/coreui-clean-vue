@@ -1,64 +1,55 @@
 import {AuthMiddlewareInterface} from "./AuthMiddlewareInterface";
 import {UserAuthStateInterface} from "../../states/UserAuthStateInterface";
-import {VuexUserAuthStateAdaptor} from "../../../vue/states/VuexAuthStateAdapter";
 import {User} from "../../entities/User";
-import {AuthError} from "../../errors/AuthError";
 import {RouteRepositoryInterface} from "../../repositories/Route/RouteRepositoryInterface";
-import {UrlRepository} from "../../repositories/Url/UrlRepository";
-import {VueRouterUrlDriver} from "../../../vue/drivers/VueRouterUrlDriver";
-import {UrlTranslator} from "../../translaters/Url/UrlTranslator";
-import {UrlGateway} from "../../gateways/Url/UrlGateway";
-import {UrlFactory} from "../../factories/Url/UrlFactory";
-import {RouteRepository} from "../../repositories/Route/RouteRepository";
 import {UrlRepositoryInterface} from "../../repositories/Url/UrlRepositoryInterface";
+import {ModuleSupportInterface} from "../../supports/ModuleSupportInterface";
 
 export class AuthMiddleware implements AuthMiddlewareInterface {
 
   private userAuthState: UserAuthStateInterface;
   private urlRepository: UrlRepositoryInterface;
   private routeRepository: RouteRepositoryInterface;
+  private support: ModuleSupportInterface;
 
-  constructor() {
-    this.userAuthState = new VuexUserAuthStateAdaptor();
-    this.urlRepository = new UrlRepository(
-      new VueRouterUrlDriver(),
-      new UrlTranslator(
-        new UrlGateway(),
-        new UrlFactory()
-      )
-    );
-    this.routeRepository = new RouteRepository();
+  constructor(modules: {
+    userAuthState: UserAuthStateInterface,
+    urlRepository: UrlRepositoryInterface,
+    routeRepository: RouteRepositoryInterface,
+    support: ModuleSupportInterface
+  }) {
+    Object.assign(this, modules);
   }
 
   public isAuthenticated() {
     const user = this.userAuthState.getLoginUser();
-    console.log("isAuthenticated. user:", user);
+    this.support.debug("isAuthenticated. user:", user);
     return user && user instanceof User;
   }
 
   public isAuthErrorOccurred() {
-    const err = this.userAuthState.getAuthError();
-    return err instanceof AuthError;
+    this.support.debug('userAuthState:',  this.userAuthState);
+    return this.userAuthState.isAuthError();
   }
 
   public login() {
     this.userAuthState.clearAuthError();
     const res = this.routeRepository.findByName('dashboard');
     if (res.err) {
-      console.log('AuthMiddleware::login system error. res: ', res);
+      this.support.debug('AuthMiddleware::login system error. res: ', res);
       return false;
     }
-    this.urlRepository.replaceByRoute(res.data);
+    this.urlRepository.replaceTransition(res.data);
   }
 
   public logout() {
     this.userAuthState.clearLoginUser();
     const res = this.routeRepository.findByName('login');
     if (res.err) {
-      console.log('AuthMiddleware::logout system error. res: ', res);
+      this.support.debug('AuthMiddleware::logout system error. res: ', res);
       return false;
     }
-    console.log("logout is called. url: ", res.data);
-    this.urlRepository.replaceByRoute(res.data);
+    this.support.debug("logout is called. url: ", res.data);
+    this.urlRepository.replaceTransition(res.data);
   }
 }

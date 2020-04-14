@@ -1,4 +1,5 @@
 export class ModuleQueryResponse<T> {
+
   readonly data: T;
   readonly err: Error;
   readonly msg: string;

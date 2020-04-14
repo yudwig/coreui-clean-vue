@@ -1,4 +1,5 @@
 export class UserGroupId {
+
   readonly value: number;
 
   constructor(value: number) {

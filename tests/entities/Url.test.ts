@@ -1,4 +1,4 @@
-import {UrlTranslator} from "../../src/modules/translaters/Url/UrlTranslator";
+import {UrlTranslator} from "../../src/modules/translators/Url/UrlTranslator";
 import {UrlGateway} from "../../src/modules/gateways/Url/UrlGateway";
 import {UrlFactory} from "../../src/modules/factories/Url/UrlFactory";
 

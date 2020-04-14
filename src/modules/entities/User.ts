@@ -1,12 +1,7 @@
 import {UserId} from "../valueobjects/UserId";
 import {UserName} from "../valueobjects/UserName";
 import {UserGroup} from "./UserGroup";
-
-interface InputInterface {
-  id: UserId,
-  name: UserName,
-  group: UserGroup
-}
+import {DomainTypeError} from "../errors/DomainTypeError";
 
 export class User {
 
@@ -14,9 +9,20 @@ export class User {
   readonly name: UserName;
   readonly group: UserGroup;
 
-  constructor(input: InputInterface) {
-    this.id = input.id;
-    this.name = input.name;
-    this.group = input.group;
+  constructor(input: {
+    id: UserId,
+    name: UserName,
+    group: UserGroup
+  }) {
+    if (!(input.id instanceof UserId)) {
+      throw new DomainTypeError('input id is not applied UserId.', input.id);
+    }
+    if (!(input.name instanceof UserName)) {
+      throw new DomainTypeError('input name is not applied UserName.', input.name);
+    }
+    if (!(input.group instanceof UserGroup)) {
+      throw new DomainTypeError('input group is not applied UserId.', input.group);
+    }
+    Object.assign(this, input);
   }
 }

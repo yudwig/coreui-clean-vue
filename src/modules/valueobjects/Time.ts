@@ -1,4 +1,5 @@
 export class Time {
+
   readonly value: number;
 
   constructor(time: number) {

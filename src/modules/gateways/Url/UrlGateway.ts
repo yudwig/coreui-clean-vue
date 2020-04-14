@@ -1,11 +1,22 @@
-import {UrlGatewayInput, UrlGatewayInterface, UrlGatewayOutput} from "./UrlGatewayInterface";
 import {ModuleQueryResponse} from "../../entities/ModuleQueryResponse";
 import {UrlDirectories} from "../../valueobjects/UrlDirectories";
 import {UrlParameters} from "../../valueobjects/UrlParameters";
 import {UrlParameter} from "../../valueobjects/UrlParameter";
 import {UrlHref} from "../../valueobjects/UrlHref";
+import {ModuleSupportInterface} from "../../supports/ModuleSupportInterface";
+import {UrlGatewayInterface} from "./UrlGatewayInterface";
+import {UrlGatewayInput} from "./UrlGatewayInput";
+import {UrlGatewayOutput} from "./UrlGatewayOutput";
 
 export class UrlGateway implements UrlGatewayInterface {
+
+  private support: ModuleSupportInterface;
+
+  constructor(modules: {
+    support: ModuleSupportInterface
+  }) {
+    Object.assign(this, modules);
+  }
 
   private splitParameters(urlSearchParams: URLSearchParams) {
     let params: UrlParameter[] = [];
@@ -22,8 +33,7 @@ export class UrlGateway implements UrlGatewayInterface {
   }
 
   convert(port: UrlGatewayInput): ModuleQueryResponse<UrlGatewayOutput> {
-
-    console.log(port.url);
+    this.support.debug(port.url);
     let values;
     try {
       const url = new URL(port.url);

@@ -1,4 +1,5 @@
 export class ModuleCommandResponse {
+
   readonly err: Error;
   readonly msg: string;
 

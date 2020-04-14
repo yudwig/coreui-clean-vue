@@ -1,14 +1,6 @@
-import {UserGroupId} from "../../valueobjects/UserGroupId";
-import {UserGroupName} from "../../valueobjects/UserGroupName";
-
-export interface UserGroupGatewayInterfaceOutput {
-  data: {
-    userGroupId: UserGroupId,
-    userGroupName: UserGroupName
-  },
-  err: Error
-}
+import {ModuleQueryResponse} from "../../entities/ModuleQueryResponse";
+import {UserGroupGatewayOutput} from "./UserGroupGatewayOutput";
 
 export interface UserGroupGatewayInterface {
-  convert(userGroupIdPort: string, userGroupNamePort: string): UserGroupGatewayInterfaceOutput;
+  convert(userGroupIdPort: string, userGroupNamePort: string): ModuleQueryResponse<UserGroupGatewayOutput>;
 }

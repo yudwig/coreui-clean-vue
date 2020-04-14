@@ -1,4 +1,5 @@
 export class NavLink {
+
   private links = [
     {
       name: 'Dashboard',
@@ -19,6 +20,7 @@ export class NavLink {
       icon: 'icon-note',
     },
   ];
+
   get items() {
     return this.links;
   }

@@ -1,10 +1,8 @@
-interface OutputInterface {
-    data: string,
-    err: Error
-}
+import {ModuleCommandResponse} from "../../../entities/ModuleCommandResponse";
+import {ModuleQueryResponse} from "../../../entities/ModuleQueryResponse";
 
 export interface GlobalStringStorageInterface {
-    write(key: string, value: string): OutputInterface;
-    read(key: string): OutputInterface;
-    delete(key: string): OutputInterface;
+    write(key: string, value: string): ModuleCommandResponse;
+    read(key: string): ModuleQueryResponse<string>;
+    delete(key: string): ModuleCommandResponse;
 }

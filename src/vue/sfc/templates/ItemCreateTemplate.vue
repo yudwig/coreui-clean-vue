@@ -11,9 +11,6 @@
 
 <script>
   import ItemFormOrganism from "../organisms/ItemFormOrganism";
-  import {ItemCreateController} from "../../../modules/controllers/ItemCreateController";
-
-  const controller = new ItemCreateController();
 
   export default {
     name: "ItemCreateTemplate",
@@ -22,23 +19,31 @@
     },
     data() {
       return {
-        item: {}
+        item: {
+          title: '',
+          comment: '',
+          imageUrl: ''
+        },
+        controller: this.getProvider().provide('controller/itemCreate')
       }
     },
     mounted() {
-      controller.initStates();
+      this.controller.initStates();
     },
     computed: {
-      resultStatus: () => controller.getResultStatus()
+      resultStatus() {
+        return this.controller.getResultStatus();
+      }
     },
     methods: {
       register(form) {
-        controller.createItem(form);
+        if (confirm('Do you want to create this item?')) {
+          this.controller.createItem(form);
+        }
       }
     },
   }
 </script>
 
 <style scoped>
-
 </style>

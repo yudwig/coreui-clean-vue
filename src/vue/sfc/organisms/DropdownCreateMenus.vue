@@ -22,19 +22,24 @@
   import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
   import {fas} from '@fortawesome/free-solid-svg-icons';
   import {far} from '@fortawesome/free-regular-svg-icons'
-  import {DropdownCreateMenusController} from "../../../modules/controllers/DropdownCreateMenusController";
   import {CIcon} from '@coreui/icons-vue';
   library.add(fas, far);
 
-  const controller = new DropdownCreateMenusController();
   export default {
     name: "DropdownAccount",
     components: {
       FontAwesomeIcon,
       CIcon
     },
+    data() {
+      return {
+        controller: this.getProvider().provide('controller/dropdownCreateMenus')
+      }
+    },
     methods: {
-      openItemCreatePage: () => controller.openItemCreatePage()
+      openItemCreatePage() {
+        this.controller.openItemCreatePage();
+      }
     }
   }
 </script>

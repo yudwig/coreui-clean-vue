@@ -31,11 +31,11 @@ export class VuexItemListViewStateAdapter implements ItemListViewStateInterface 
     return store.getters['itemSearchQuery'];
   }
 
-  getMessage(): ItemListMessage {
+  getMessage(): ItemListMessage.Message {
     return store.getters['message'];
   }
 
-  setMessage(message: ItemListMessage) {
+  setMessage(message: ItemListMessage.Message) {
     store.dispatch('setMessage', message);
   }
 

@@ -61,8 +61,6 @@
   import DropdownAccount from '../organisms/DropdownAccount.vue';
   import DropdownRegisterMenus from "../organisms/DropdownCreateMenus";
   import LogoutWatchMiddleware from "../middlewares/LogoutWatchMiddleware";
-  import {UserPageController} from "../../../modules/controllers/UserPageController";
-  const controller = new UserPageController();
   export default {
     name: "UserPage",
     components: {
@@ -72,6 +70,7 @@
     },
     data() {
       return {
+        controller: this.getProvider().provide('controller/userPage'),
         navLinks: [],
         isMinimizedSidebar: false,
         sidebarShow: 'responsive',
@@ -82,7 +81,7 @@
       }
     },
     created() {
-      controller.syncLoginUser();
+      this.controller.syncLoginUser();
     },
     methods: {
       toggleSidebarDesktop () {
@@ -98,7 +97,7 @@
         this.isMinimizedSidebar = !this.isMinimizedSidebar;
       },
       navLinkClicked(navLink) {
-        console.log('navLinkClicked is called.', navLink);
+        this.debug('navLinkClicked is called.', navLink);
         this.navLinkClickedMessage = {
           name: navLink.name,
           time: new Date().getTime()
@@ -108,7 +107,7 @@
     watch: {
       $route: {
         handler() {
-          this.navLinks = controller.getNavLinks();
+          this.navLinks = this.controller.getNavLinks();
         },
         immediate: true
       }
@@ -143,12 +142,12 @@
   .c-sidebar-minimized.app-sidebar .c-sidebar-nav-dropdown-toggle:hover {
     width: 100%;
   }
-  /*.fade-enter-active,*/
-  /*.fade-leave-active {*/
-  /*  transition: opacity 0.3s;*/
-  /*}*/
-  /*.fade-enter,*/
-  /*.fade-leave-to {*/
-  /*  opacity: 0;*/
-  /*}*/
+  .fade-enter-active,
+  .fade-leave-active {
+    transition: opacity 0.3s;
+  }
+  .fade-enter,
+  .fade-leave-to {
+    opacity: 0;
+  }
 </style>

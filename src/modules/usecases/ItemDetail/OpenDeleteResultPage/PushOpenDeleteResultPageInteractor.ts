@@ -1,26 +1,28 @@
 import {OpenDeleteResultPageUseCase} from "./OpenDeleteResultPageUseCase";
 import {UrlRepositoryInterface} from "../../../repositories/Url/UrlRepositoryInterface";
 import {RouteRepositoryInterface} from "../../../repositories/Route/RouteRepositoryInterface";
+import {ModuleSupportInterface} from "../../../supports/ModuleSupportInterface";
 
 export class PushOpenDeleteResultPageInteractor implements OpenDeleteResultPageUseCase {
 
   private urlRepository: UrlRepositoryInterface;
   private routeRepository: RouteRepositoryInterface;
+  private support: ModuleSupportInterface;
 
-  constructor(
+  constructor(modules: {
     urlRepository: UrlRepositoryInterface,
-    routeRepository: RouteRepositoryInterface
-  ) {
-    this.urlRepository = urlRepository;
-    this.routeRepository = routeRepository;
+    routeRepository: RouteRepositoryInterface,
+    support: ModuleSupportInterface
+  }) {
+    Object.assign(this, modules);
   }
 
   handle() {
     const routeRepositoryRes = this.routeRepository.findByName('itemList');
     if (routeRepositoryRes.err) {
-      console.log('delete failed. itemList is not found. repository response: ', routeRepositoryRes);
+      this.support.error('delete failed. itemList is not found. repository response: ', routeRepositoryRes);
       return false;
     }
-    this.urlRepository.replaceByRoute(routeRepositoryRes.data);
+    this.urlRepository.replaceTransition(routeRepositoryRes.data);
   }
 }

@@ -8,8 +8,6 @@ export class AuthToken {
 
   constructor(tokenString: AuthTokenString, expireTime: Time) {
     this.tokenString = tokenString;
-
-    //todo: 期限切れの場合例外を投げる。
     this.expireTime = expireTime;
   }
 }

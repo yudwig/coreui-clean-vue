@@ -5,26 +5,31 @@ import {Route} from "../../entities/Route";
 import {ModuleQueryResponse} from "../../entities/ModuleQueryResponse";
 import {UndefinedRouteError} from "../../errors/UndefinedRouteError";
 import {Url} from "../../entities/Url";
+import {ModuleSupportInterface} from "../../supports/ModuleSupportInterface";
 
 export class RouteRepository implements RouteRepositoryInterface {
 
   private routeConfig: RouteConfig;
+  private support: ModuleSupportInterface;
 
-  constructor() {
+  constructor(modules: {
+    support: ModuleSupportInterface
+  }) {
+    Object.assign(this, modules);
     this.routeConfig = new RouteConfig();
   }
 
   private createUrl(url: string, params: object) {
-    console.log(url, params);
+    this.support.debug(url, params);
     const templates = this.extractTemplates(url);
     templates.forEach(template => {
       const key = template.slice(1, -1);
-      console.log(key, template);
+      this.support.debug(key, template);
       if (params[key]) {
         url = url.replace(template, params[key]);
       }
     });
-    console.log(url);
+    this.support.debug(url);
     return url;
   }
 
@@ -35,8 +40,8 @@ export class RouteRepository implements RouteRepositoryInterface {
 
   findByName(name: string, params: object = {}): ModuleQueryResponse<Route> {
     const conf = this.routeConfig.routes.find(route => route.name === name);
-    console.log('findByName. conf: ', conf);
-    console.log('findByName. params: ', params);
+    this.support.debug('findByName. conf: ', conf);
+    this.support.debug('findByName. params: ', params);
     if (!conf) {
       return new ModuleQueryResponse<Route>(null,
         new UndefinedRouteError('input route name is not found.', name));

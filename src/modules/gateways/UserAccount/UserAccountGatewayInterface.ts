@@ -1,14 +1,6 @@
-import {UserId} from "../../valueobjects/UserId";
-import {UserPassword} from "../../valueobjects/UserPassword";
-
-interface OutputInterface {
-  data: {
-    userId: UserId,
-    userPassword: UserPassword
-  },
-  err: Error
-}
+import {ModuleQueryResponse} from "../../entities/ModuleQueryResponse";
+import {UserAccountGatewayOutput} from "./UserAccountGatewayOutput";
 
 export interface UserAccountGatewayInterface {
-  convert(userIdPort: any, userPasswordPort: any): OutputInterface;
+  convert(userIdPort: string, userPasswordPort: string): ModuleQueryResponse<UserAccountGatewayOutput>;
 }

@@ -1,4 +1,4 @@
-import {UserTranslator} from "../../../src/modules/translaters/User/UserTranslator";
+import {UserTranslator} from "../../../src/modules/translators/User/UserTranslator";
 import {User} from "../../../src/modules/entities/User";
 
 const translator = new UserTranslator();

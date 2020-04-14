@@ -23,7 +23,7 @@ const mutations = {
   setItemSearchQuery(state, itemSearchQuery: ItemSearchQuery) {
     states.itemSearchQuery = itemSearchQuery;
   },
-  setMessage(state, message: ItemListMessage) {
+  setMessage(state, message: ItemListMessage.Message) {
     states.message = message;
   },
 };
@@ -41,7 +41,7 @@ const actions = {
   async setItemSearchQuery(context, itemSearchQuery: ItemSearchQuery) {
     context.commit('setItemSearchQuery', itemSearchQuery);
   },
-  async setMessage(context, message: ItemListMessage) {
+  async setMessage(context, message: ItemListMessage.Message) {
     context.commit('setMessage', message);
   },
   async clearMessage(context) {

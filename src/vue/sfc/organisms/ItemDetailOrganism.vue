@@ -40,9 +40,6 @@
 <script>
   import ItemTitleAtom from "../atoms/ItemTitleAtom";
   import ItemCommentAtom from "../atoms/ItemCommentAtom";
-  import {ItemMenuController} from "../../../modules/controllers/ItemMenuController";
-
-  const controller = new ItemMenuController();
 
   export default {
     name: "ItemDetailOrganism",
@@ -55,15 +52,20 @@
         type: Object
       }
     },
+    data() {
+      return {
+        controller: this.getProvider().provide('controller/itemMenu')
+      }
+    },
     methods: {
       editButtonClicked() {
-        console.log('editButtonClicked is called.');
-        controller.openItemEditPage(this.item.id);
+        this.debug('editButtonClicked is called.');
+        this.controller.openItemEditPage(this.item.id);
       },
       deleteButtonClicked() {
-        console.log('editButtonClicked is called.');
+        this.debug('editButtonClicked is called.');
         if (confirm('Do you want to delete this item?')) {
-          controller.deleteItem(this.item.id);
+          this.controller.deleteItem(this.item.id);
           this.$emit('itemDeleted');
         }
       }

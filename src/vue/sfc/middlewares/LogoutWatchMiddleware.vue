@@ -3,40 +3,36 @@
 </template>
 
 <script>
-  import {AuthMiddleware} from "../../../modules/middlewares/Auth/AuthMiddleware";
-  const middleware = new AuthMiddleware();
-
-  let f = function() {
-    middleware.isAuthenticated();
-  };
-
-  // setInterval(f, 3000);
-
   export default {
     name: "LogoutWatchMiddleware",
+    data() {
+      return {
+        middleware: this.getProvider().provide('middleware/auth')
+      }
+    },
     computed: {
       isAuthenticated: function() {
-        console.log("isAuthenticated is changed. ", middleware.isAuthenticated());
-        return middleware.isAuthenticated()
+        this.debug("isAuthenticated is changed. ", this.middleware.isAuthenticated());
+        return this.middleware.isAuthenticated()
       },
       isAuthErrorOccurred: function() {
-        return middleware.isAuthErrorOccurred();
+        return this.middleware.isAuthErrorOccurred();
       }
     },
     watch: {
       isAuthenticated: {
         async handler(newVal, oldVal) {
-          console.log('new: ', newVal, 'old:', oldVal);
+          this.debug('new: ', newVal, 'old:', oldVal);
           // true -> false
           if (oldVal && !newVal) {
-            middleware.logout();
+            this.middleware.logout();
           }
         },
         immediate: true
       },
       isAuthErrorOccurred: {
         async handler() {
-          middleware.logout();
+          this.middleware.logout();
         }
       }
     }

@@ -1,17 +1,20 @@
 import {SyncLoginUserUseCase} from "./SyncLoginUserUseCase";
 import {UserRepositoryInterface} from "../../../repositories/User/UserRepositoryInterface";
-import {MockUserRepository} from "../../../repositories/User/MockUserRepository";
 import {UserAuthStateInterface} from "../../../states/UserAuthStateInterface";
-import {VuexUserAuthStateAdaptor} from "../../../../vue/states/VuexAuthStateAdapter";
+import {ModuleSupportInterface} from "../../../supports/ModuleSupportInterface";
 
 export class SyncLoginUserInteractor implements SyncLoginUserUseCase {
 
   private userRepository: UserRepositoryInterface;
   private userAuthState: UserAuthStateInterface;
+  private support: ModuleSupportInterface;
 
-  constructor() {
-    this.userRepository = new MockUserRepository();
-    this.userAuthState = new VuexUserAuthStateAdaptor();
+  constructor(modules: {
+    userRepository: UserRepositoryInterface,
+    userAuthState: UserAuthStateInterface,
+    support: ModuleSupportInterface
+  }) {
+    Object.assign(this, modules);
   }
 
   handle() {
@@ -20,7 +23,7 @@ export class SyncLoginUserInteractor implements SyncLoginUserUseCase {
       this.userAuthState.setAuthError(resUserRepository.err);
       return false;
     }
-    this.userAuthState.setLoginUser(resUserRepository.data.user);
+    this.userAuthState.setLoginUser(resUserRepository.data);
     return true;
   }
 }

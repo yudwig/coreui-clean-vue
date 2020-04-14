@@ -1,5 +1,5 @@
 <template>
-  <div class="app flex-row align-items-center">
+  <div class="c-app flex-row align-items-center">
     <LoginWatchMiddleware></LoginWatchMiddleware>
     <div class="container">
       <b-row class="justify-content-center">
@@ -36,9 +36,9 @@
                       <b-button variant="link" class="px-0">Forgot password?</b-button>
                     </b-col>
                   </b-row>
-                  <b-row v-if="loginErrorMessage">
-                    <b-alert class="col-12" show v-bind:variant="danger">
-                      {{loginErrorMessage}}
+                  <b-row v-if="loginErrorMessage.message">
+                    <b-alert class="col-12" show :variant="loginErrorMessage.className">
+                      {{loginErrorMessage.message}}
                     </b-alert>
                   </b-row>
                 </b-form>
@@ -52,9 +52,7 @@
 </template>
 
 <script>
-  import {LoginController} from "../../../modules/controllers/LoginController";
   import LoginWatchMiddleware from "../middlewares/LoginWatchMiddleware";
-  const controller = new LoginController();
 
   export default {
     name: 'Login',
@@ -65,17 +63,20 @@
       return {
         loginId: '',
         password: '',
+        controller: this.getProvider().provide('controller/login')
       }
     },
     computed: {
-      loginErrorMessage: () => controller.getLoginErrorMessage()
+      loginErrorMessage() {
+        return this.controller.getLoginErrorMessage();
+      }
     },
     methods: {
       async login() {
-        controller.login(this.loginId, this.password);
+        this.controller.login(this.loginId, this.password);
       },
       async loginGuest() {
-        controller.loginAsGuest();
+        this.controller.loginAsGuest();
       }
     }
   }

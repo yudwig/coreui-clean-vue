@@ -1,22 +1,17 @@
 import {ItemRepositoryInterface} from "./ItemRepositoryInterface";
 import {Item} from "../../entities/Item";
 import {ItemSearchQuery} from "../../queries/ItemList/ItemSearchQuery";
-import {SessionStorage} from "../../drivers/WebStorage/SessionStorage";
 import {QueryStorageInterface} from "../../drivers/Storage/QueryStorage/QueryStorageInterface";
-import {WebQueryStorage} from "../../drivers/Storage/QueryStorage/WebQueryStorage";
 import {StorageQueryBuilder} from "../../queries/Storage/StorageQueryBuilder";
-import {ItemTranslatorInterface} from "../../translaters/Item/ItemTranslatorInterface";
-import {ItemTranslator} from "../../translaters/Item/ItemTranslator";
+import {ItemTranslatorInterface} from "../../translators/Item/ItemTranslatorInterface";
 import {ModuleQueryResponse} from "../../entities/ModuleQueryResponse";
 import {Items} from "../../entities/Items";
-import {ItemsTranslatorInterface} from "../../translaters/Items/ItemsTranslatorInterface";
-import {ItemsTranslator} from "../../translaters/Items/ItemsTranslator";
+import {ItemsTranslatorInterface} from "../../translators/Items/ItemsTranslatorInterface";
 import {ItemCreateQuery} from "../../queries/ItemCreate/ItemCreateQuery";
-import {SerializerInterface} from "../../serializers/SerializerInterface";
-import {JsonSerializer} from "../../serializers/JsonSerializer";
-import {ItemTranslatorInput} from "../../translaters/Item/ItemTranslatorInput";
+import {ItemTranslatorInput} from "../../translators/Item/ItemTranslatorInput";
 import {ItemId} from "../../valueobjects/ItemId";
 import {ModuleCommandResponse} from "../../entities/ModuleCommandResponse";
+import {ModuleSupportInterface} from "../../supports/ModuleSupportInterface";
 const dbItems = [
   {
     id: '1',
@@ -65,18 +60,18 @@ export class MockItemRepository implements ItemRepositoryInterface{
   private storage: QueryStorageInterface;
   private itemTranslator: ItemTranslatorInterface;
   private itemsTranslator: ItemsTranslatorInterface;
-  private serializer: SerializerInterface;
+  private support: ModuleSupportInterface;
 
-  constructor() {
-    this.storage = new WebQueryStorage(
-      new SessionStorage()
-    );
-    if (!this.storage.isset('items')) {
+  constructor(modules: {
+    storage: QueryStorageInterface,
+    itemTranslator: ItemTranslatorInterface,
+    itemsTranslator: ItemsTranslatorInterface,
+    support: ModuleSupportInterface
+  }) {
+    Object.assign(this, modules);
+    if (!this.storage.isset('items').data) {
       this.initData();
     }
-    this.itemTranslator = new ItemTranslator();
-    this.itemsTranslator = new ItemsTranslator();
-    this.serializer = new JsonSerializer();
   }
 
   private initData() {
@@ -104,7 +99,6 @@ export class MockItemRepository implements ItemRepositoryInterface{
   }
 
   public search(query: ItemSearchQuery): ModuleQueryResponse<Items> {
-
     const builder = new StorageQueryBuilder();
     const searchQuery =
       builder
@@ -114,15 +108,16 @@ export class MockItemRepository implements ItemRepositoryInterface{
         .limit(query.count)
         .build();
     const searchResponse = this.storage.search(searchQuery);
+    this.support.debug('searchResponse: ', searchResponse);
     if (searchResponse.err) {
       return new ModuleQueryResponse(null, searchResponse.err);
     }
     const translateResponse = this.itemsTranslator.translate(<ItemTranslatorInput[]>searchResponse.data);
+    this.support.debug('translateResponse: ', translateResponse);
     return new ModuleQueryResponse(translateResponse.data, translateResponse.err);
   }
 
   public create(itemCreateQuery: ItemCreateQuery): ModuleQueryResponse<Item> {
-
     const builder = new StorageQueryBuilder();
     const searchQuery =
       builder
@@ -157,7 +152,6 @@ export class MockItemRepository implements ItemRepositoryInterface{
   }
 
   public update(item: Item): ModuleQueryResponse<Item> {
-
     const searchQuery = this.buildFindByIdQuery(item.id);
     const searchRes = this.storage.search(searchQuery);
     if (searchRes.err) {
@@ -166,7 +160,7 @@ export class MockItemRepository implements ItemRepositoryInterface{
     if (searchRes.data.length !== 1) {
       return new ModuleQueryResponse<Item>(null, new Error('not found or specified item. id: ' + item.id.value));
     }
-    console.log('repository update item: ', item);
+    this.support.debug('repository update item: ', item);
     const data = {
       id: item.id.value.toString(),
       title: item.title.value,
@@ -175,7 +169,7 @@ export class MockItemRepository implements ItemRepositoryInterface{
       updatedAt: new Date().getTime().toString(),
       createdAt: item.createdAt.value.toString()
     };
-    console.log('repository update data',  data);
+    this.support.debug('repository update data',  data);
     const translateRes = this.itemTranslator.translate(data);
     if (translateRes.err) {
       return new ModuleQueryResponse<Item>(null, translateRes.err);

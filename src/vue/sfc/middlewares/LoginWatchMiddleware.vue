@@ -3,20 +3,24 @@
 </template>
 
 <script>
-  import {AuthMiddleware} from "../../../modules/middlewares/Auth/AuthMiddleware";
-  const middleware = new AuthMiddleware();
-
   export default {
     name: "LoginWatchMiddleware",
+    data() {
+      return {
+        middleware: this.getProvider().provide('middleware/auth')
+      }
+    },
     computed: {
-      isAuthenticated: () => middleware.isAuthenticated()
+      isAuthenticated() {
+        return this.middleware.isAuthenticated()
+      }
     },
     watch: {
       isAuthenticated: {
         async handler(val) {
-          console.log("isAuthenticated: ", val);
+          this.debug("isAuthenticated: ", val);
           if (val) {
-            middleware.login();
+            this.middleware.login();
           }
         },
         immediate: true

@@ -3,28 +3,35 @@ import {ModuleQueryResponse} from "../../entities/ModuleQueryResponse";
 import {Url} from "../../entities/Url";
 import {ModuleCommandResponse} from "../../entities/ModuleCommandResponse";
 import {UrlDriverInterface} from "../../drivers/Url/UrlDriverInterface";
-import {UrlTranslatorInterface} from "../../translaters/Url/UrlTranslatorInterface";
+import {UrlTranslatorInterface} from "../../translators/Url/UrlTranslatorInterface";
 import {Route} from "../../entities/Route";
+import {ModuleSupportInterface} from "../../supports/ModuleSupportInterface";
+import {RouterDriverInterface} from "../../drivers/Router/RouterDriverInterface";
 
 export class UrlRepository implements UrlRepositoryInterface {
 
-  private driver: UrlDriverInterface;
-  private translator: UrlTranslatorInterface;
+  private urlDriver: UrlDriverInterface;
+  private routerDriver: RouterDriverInterface;
+  private urlTranslator: UrlTranslatorInterface;
+  private support: ModuleSupportInterface;
 
-  constructor(
+  constructor(modules: {
     urlDriver: UrlDriverInterface,
-    urlTranslator: UrlTranslatorInterface
-  ) {
-    this.driver = urlDriver;
-    this.translator = urlTranslator
+    routerDriver: RouterDriverInterface,
+    urlTranslator: UrlTranslatorInterface,
+    support: ModuleSupportInterface
+  }) {
+    Object.assign(this, modules);
   }
 
   get(): ModuleQueryResponse<Url> {
-    const driverRes = this.driver.read();
+    const driverRes = this.urlDriver.read();
     if (driverRes.err) {
       return new ModuleQueryResponse<Url>(null, driverRes.err);
     }
-    const translatorRes = this.translator.translate({url: driverRes.data});
+    const translatorRes = this.urlTranslator.translate({
+      url: driverRes.data
+    });
     if (translatorRes.err) {
       return new ModuleQueryResponse<Url>(null, translatorRes.err);
     }
@@ -32,27 +39,32 @@ export class UrlRepository implements UrlRepositoryInterface {
   }
 
   pop(): ModuleCommandResponse {
-    const res = this.driver.pop();
+    const res = this.urlDriver.pop();
     return new ModuleCommandResponse(res.err);
   }
 
-  pushRoute(route: Route): ModuleCommandResponse {
-    const res = this.driver.push(route.path);
+  push(route: Route): ModuleCommandResponse {
+    const res = this.urlDriver.push(route.path);
     return new ModuleCommandResponse(res.err);
   }
 
-  pushUrl(url: Url): ModuleCommandResponse {
-    const res = this.driver.push(url.href.value);
+  replace(route: Route): ModuleCommandResponse {
+    const res = this.urlDriver.write(route.path);
     return new ModuleCommandResponse(res.err);
   }
 
-  replaceByRoute(route: Route): ModuleCommandResponse {
-    const res = this.driver.write(route.path);
+  popTransition(): ModuleCommandResponse {
+    const res = this.routerDriver.pop();
     return new ModuleCommandResponse(res.err);
   }
 
-  replaceByUrl(url: Url): ModuleCommandResponse {
-    const res = this.driver.write(url.href.value);
+  pushTransition(route: Route) {
+    const res = this.routerDriver.push(route.path);
+    return new ModuleCommandResponse(res.err);
+  }
+
+  replaceTransition(route: Route) {
+    const res = this.routerDriver.replace(route.path);
     return new ModuleCommandResponse(res.err);
   }
 }

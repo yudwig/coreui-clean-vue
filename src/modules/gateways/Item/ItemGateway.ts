@@ -6,26 +6,19 @@ import {Time} from "../../valueobjects/Time";
 import {ItemGatewayInterface} from "./ItemGatewayInterface";
 import {ItemGatewayInputInterface} from "./ItemGatewayInputInterface";
 import {ItemGatewayOutputInterface} from "./ItemGatewayOutputInterface";
-import {UrlTranslator} from "../../translaters/Url/UrlTranslator";
-import {UrlTranslatorInterface} from "../../translaters/Url/UrlTranslatorInterface";
-import {UrlGatewayInterface} from "../Url/UrlGatewayInterface";
-import {UrlFactoryInterface} from "../../factories/Url/UrlFactoryInterface";
-import {UrlGateway} from "../Url/UrlGateway";
-import {UrlFactory} from "../../factories/Url/UrlFactory";
+import {UrlTranslatorInterface} from "../../translators/Url/UrlTranslatorInterface";
+import {ModuleSupportInterface} from "../../supports/ModuleSupportInterface";
 
 export class ItemGateway implements ItemGatewayInterface {
 
   private urlTranslator: UrlTranslatorInterface;
-  private urlGateway: UrlGatewayInterface;
-  private urlFactory: UrlFactoryInterface;
+  private support: ModuleSupportInterface;
 
-  constructor() {
-    this.urlGateway = new UrlGateway();
-    this.urlFactory = new UrlFactory();
-
-    this.urlTranslator = new UrlTranslator(
-      this.urlGateway, this.urlFactory
-    );
+  constructor(modules: {
+    urlTranslator: UrlTranslatorInterface,
+    support: ModuleSupportInterface
+  }) {
+    Object.assign(this, modules);
   }
 
   convert(port: ItemGatewayInputInterface): ModuleQueryResponse<ItemGatewayOutputInterface> {
@@ -56,11 +49,10 @@ export class ItemGateway implements ItemGatewayInterface {
         output.updatedAt = new Time(parseInt(port.updatedAt, 10));
       }
     } catch (e) {
+      this.support.error('item gateway error. err: ', e);
       return new ModuleQueryResponse<ItemGatewayOutputInterface>(null, e);
     }
-
-    console.log('output: ', output);
-
+    this.support.debug('item gateway output: ', output);
     return new ModuleQueryResponse<ItemGatewayOutputInterface>(output);
   }
 }

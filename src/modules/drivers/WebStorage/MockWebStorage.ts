@@ -1,10 +1,15 @@
 import {WebStorageInterface} from "./WebStorageInterface";
+import {ModuleSupportInterface} from "../../supports/ModuleSupportInterface";
 
 export class MockWebStorage implements WebStorageInterface {
 
-  private storage;
+  private storage: {};
+  private support: ModuleSupportInterface;
 
-  constructor() {
+  constructor(modules: {
+    support: ModuleSupportInterface
+  }) {
+    Object.assign(this, modules);
     this.storage = {};
   }
 
