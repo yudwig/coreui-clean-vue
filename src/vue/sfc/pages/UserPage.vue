@@ -32,6 +32,7 @@
         <CSidebarNav>
           <CSidebarNavItem
             v-for="navLink in navLinks"
+            :key="navLink.name"
             :name="navLink.name"
             :to="navLink.to"
             :icon="navLink.icon"

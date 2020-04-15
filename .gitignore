@@ -1,5 +1,6 @@
 src/vue/sfc/pages/TodoPage.vue
 node_modules/
+build/
 public/css
 public/js
 public/assets

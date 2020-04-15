@@ -33,6 +33,7 @@ export class CoreUiNavLinksPresenter implements CoreUiNavLinksPresenterInterface
   private createNavLinkParam(route: Route, nowRoute: Route) {
     const baseParam = {
       name: route.name,
+      title: route.title,
       to: route.path,
       attributes: route.equals(nowRoute) ? {class: 'active'} : {}
     };

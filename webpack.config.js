@@ -3,14 +3,18 @@ const precss = require('precss');
 const autoprefixer = require('autoprefixer');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const ANALYZE_BUILD = !!process.env.ANALYZE_BUILD;
 
 module.exports = {
+  mode: 'development',
+  devtool: "source-map",
+  cache: false,
   entry: './src/vue/app/index.js',
   output: {
     path: path.resolve(__dirname, './public/'),
     filename: 'js/bundle.js'
   },
-  cache: true,
   module: {
     rules: [
       {
@@ -59,11 +63,24 @@ module.exports = {
       'vue$': 'vue/dist/vue.esm.js'
     }
   },
-  plugins: [
+  plugins: [].concat(
     new VueLoaderPlugin(),
     // new MiniCssExtractPlugin({
     //   filename: 'css/app.css'
     // })
-  ]
+  ).concat(
+    ANALYZE_BUILD ? [
+      new BundleAnalyzerPlugin({
+        analyzerMode: 'static',
+        reportFilename: path.join(__dirname, './build/stats/app.html'),
+        defaultSizes: 'gzip',
+        openAnalyzer: false,
+        generateStatsFile: true,
+        statsFilename: path.join(__dirname, './build/stats/app.json'),
+        statsOptions: null,
+        logLevel: 'info'
+      })
+    ] : []
+  )
 };
 

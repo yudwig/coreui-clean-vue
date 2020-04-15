@@ -6,7 +6,12 @@
       </div>
       <CAlert v-if="message.message" show close-button :color="message.className">{{message.message}}</CAlert>
       <div v-if="items.list" class="list">
-        <ItemThumbnailOrganism v-for="item in items.list" :item="item" @imageClicked="openDetail(item.id)"/>
+        <ItemThumbnailOrganism
+          v-for="item in items.list"
+          :item="item"
+          :key="item.id"
+          @imageClicked="openDetail(item.id)"
+        />
       </div>
     </div>
     <div class="close-button-container">
