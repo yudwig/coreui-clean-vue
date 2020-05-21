@@ -21,6 +21,7 @@
     "start": "webpack --watch -d & browser-sync start --config bs-config.js",
     "build": "webpack",
     "analyze": "ANALYZE_BUILD=1 webpack",
+    "release": "RELEASE_BUILD=1 webpack",
     "test": "jest"
   },
   "resolutions": {

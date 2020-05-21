@@ -5,9 +5,10 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const ANALYZE_BUILD = !!process.env.ANALYZE_BUILD;
+const RELEASE_BUILD = !!process.env.RELEASE_BUILD;
 
 module.exports = {
-  mode: 'development',
+  mode: RELEASE_BUILD ? 'production' : 'development',
   devtool: "source-map",
   cache: false,
   entry: './src/vue/app/index.js',

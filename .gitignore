@@ -1,4 +1,3 @@
-src/vue/sfc/pages/TodoPage.vue
 node_modules/
 build/
 public/css
@@ -9,10 +8,6 @@ yarn-error.log
 *.vue.js
 *.vue.js.map
 *.js.map
-src/modules/**/*.js
-src/vue/drivers/**/*.js
-src/vue/sfc/**/*.js
-src/vue/states/**/*.js
 tests/**/*.js
 mock/**/*.js
 

@@ -1,9 +1,14 @@
 import {MockWebStorage} from "../../../src/modules/drivers/WebStorage/MockWebStorage";
 import {WebQueryStorage} from "../../../src/modules/drivers/Storage/QueryStorage/WebQueryStorage";
 import {StorageQueryBuilder} from "../../../src/modules/queries/Storage/StorageQueryBuilder";
+import {Provider} from "../../../src/modules/providers/Provider";
+import {ContainerConfig} from "../../../src/modules/configs/ContainerConfig";
+
 
 function createMockStorage(data) {
-  const mock = new MockWebStorage();
+  const provider = new Provider(ContainerConfig.container);
+  const mock = provider.provide('driver/webStorage/session');
+  // const mock = new MockWebStorage();
   const storage = new WebQueryStorage(mock);
   data.items.forEach(item => {
     storage.create('items', item);
@@ -92,31 +97,26 @@ test ('update one item', () => {
 
   storage.update(query, {price: 9999});
   const result = storage.search(query);
-  expect(result.data[0].price === 9999).toBeTruthy();
+  expect(result.data[0]['price'] === 9999).toBeTruthy();
 });
 
 test ('isset true', () => {
   const storage = createMockStorage(simpleTestData);
-  expect(storage.isset('items') === true).toBeTruthy();
+  expect(storage.isset('items').data === true).toBeTruthy();
 });
 
 test ('isset false', () => {
-  const mock = new MockWebStorage();
-  const storage = new WebQueryStorage(mock);
-  expect(storage.isset('items') === false).toBeTruthy();
+  const storage = createMockStorage({});
+  expect(storage.isset('items').data === false).toBeTruthy();
 });
 
 test ('not isset => result of search is equal to []', () => {
-
-  const mock = new MockWebStorage();
-  const storage = new WebQueryStorage(mock);
-
+  const storage = createMockStorage({});
   const builder = new StorageQueryBuilder();
   const query = builder
     .selectFrom('items')
     .where(' id = 1 ')
     .build();
-
   const result = storage.search(query);
   expect(result.data.length === 0).toBeTruthy();
 });
@@ -144,9 +144,8 @@ test('get max id row', () => {
     .limit(1)
     .build();
   const result = storage.search(query);
-  // console.log(result);
   expect(result.data.length == 1).toBeTruthy();
-  expect(result.data[0].id == 9).toBeTruthy();
+  expect(result.data[0]['id'] == 9).toBeTruthy();
 });
 
 test('get min id row', () => {
@@ -161,7 +160,7 @@ test('get min id row', () => {
   const result = storage.search(query);
   // console.log(result);
   expect(result.data.length == 1).toBeTruthy();
-  expect(result.data[0].id == 0).toBeTruthy();
+  expect(result.data[0]['id'] == 0).toBeTruthy();
 });
 
 
