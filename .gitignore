@@ -1,8 +1,5 @@
 node_modules/
 build/
-public/css
-public/js
-public/assets
 yarn-error.log
 .idea/
 *.vue.js
@@ -10,4 +7,4 @@ yarn-error.log
 *.js.map
 tests/**/*.js
 mock/**/*.js
-
+.DS_Store
