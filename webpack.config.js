@@ -58,7 +58,6 @@ module.exports = {
       {
         test: /\.(png|jpe?g|gif|ttf|woff|woff2|eot|svg)$/,
         use: [
-          // {loader: 'file-loader', options: {outputPath: 'assets'}}
           {loader: 'file-loader', options: {outputPath: 'css/assets'}}
         ]
       }

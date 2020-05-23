@@ -51,6 +51,7 @@ const routes = [
   {
     path: '*',
     component: Error404,
+    redirect: '/dashboard'
   },
 ];
 
