@@ -3,6 +3,8 @@ const precss = require('precss');
 const autoprefixer = require('autoprefixer');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+const TerserPlugin = require('terser-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const ANALYZE_BUILD = !!process.env.ANALYZE_BUILD;
 const RELEASE_BUILD = !!process.env.RELEASE_BUILD;
@@ -12,6 +14,9 @@ module.exports = {
   devtool: "source-map",
   cache: false,
   entry: './src/vue/app/index.js',
+  optimization: {
+    minimizer: [new TerserPlugin({}), new OptimizeCSSAssetsPlugin({})]
+  },
   output: {
     path: path.resolve(__dirname, './public/'),
     filename: 'js/bundle.js'
@@ -27,7 +32,8 @@ module.exports = {
       {
         test: /\.scss$/,
         use: [
-          {loader: 'style-loader'},
+          MiniCssExtractPlugin.loader,
+          // {loader: 'style-loader'},
           {loader: 'css-loader'},
           // {loader: 'postcss-loader', options: {plugins: [precss, autoprefixer]}},
           // {loader: 'postcss-loader', options: {plugins: [precss]}},
@@ -66,9 +72,9 @@ module.exports = {
   },
   plugins: [].concat(
     new VueLoaderPlugin(),
-    // new MiniCssExtractPlugin({
-    //   filename: 'css/app.css'
-    // })
+    new MiniCssExtractPlugin({
+      filename: 'css/app.css'
+    })
   ).concat(
     ANALYZE_BUILD ? [
       new BundleAnalyzerPlugin({
