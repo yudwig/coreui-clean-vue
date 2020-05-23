@@ -14,9 +14,9 @@ module.exports = {
   devtool: "source-map",
   cache: false,
   entry: './src/vue/app/index.js',
-  optimization: {
+  optimization: RELEASE_BUILD ? {
     minimizer: [new TerserPlugin({}), new OptimizeCSSAssetsPlugin({})]
-  },
+  } : {},
   output: {
     path: path.resolve(__dirname, './public/'),
     filename: 'js/bundle.js'
@@ -32,8 +32,7 @@ module.exports = {
       {
         test: /\.scss$/,
         use: [
-          MiniCssExtractPlugin.loader,
-          // {loader: 'style-loader'},
+          RELEASE_BUILD ? MiniCssExtractPlugin.loader : {loader: 'style-loader'},
           {loader: 'css-loader'},
           // {loader: 'postcss-loader', options: {plugins: [precss, autoprefixer]}},
           // {loader: 'postcss-loader', options: {plugins: [precss]}},

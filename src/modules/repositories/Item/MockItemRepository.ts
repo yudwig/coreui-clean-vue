@@ -12,11 +12,16 @@ import {ItemTranslatorInput} from "../../translators/Item/ItemTranslatorInput";
 import {ItemId} from "../../valueobjects/ItemId";
 import {ModuleCommandResponse} from "../../entities/ModuleCommandResponse";
 import {ModuleSupportInterface} from "../../supports/ModuleSupportInterface";
+
+// const baseUrl = 'http://localhost:3000';
+// const baseUrl = 'https://yudwig.github.io/public';
+const baseUrl = 'https://raw.githubusercontent.com/yudwig/coreui-vue-base/master/public';
+
 const dbItems = [
   {
     id: '1',
     title: 'A City Park',
-    imageUrl: 'http://localhost:3000/images/1968.88 - A City Park.jpeg',
+    imageUrl: `${baseUrl}/images/1968.88 - A City Park.jpeg`,
     comment: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur aliquet mattis erat, feugiat accumsan tellus volutpat a. Quisque dapibus tincidunt ipsum, at placerat nisi efficitur nec. Nulla nisi ipsum, rutrum et nunc id, viverra eleifend enim. Curabitur nisi odio, ullamcorper id interdum eget, venenatis nec lacus. Nulla non egestas purus, et blandit dui. Vestibulum ullamcorper scelerisque sapien, id iaculis nibh blandit at. Aenean vel nunc hendrerit, finibus tellus in, tempor ex.',
     updatedAt: '1579152589',
     createdAt: '1578963600'
@@ -24,7 +29,7 @@ const dbItems = [
   {
     id: '2',
     title: 'Paris Street; Rainy Day',
-    imageUrl: 'http://localhost:3000/images/1964.336 - Paris Street; Rainy Day.jpeg',
+    imageUrl: `${baseUrl}/images/1964.336 - Paris Street; Rainy Day.jpeg`,
     comment: 'Aenean in felis elementum, pulvinar ipsum eget, egestas ante. Integer eu ligula vitae sapien congue egestas. Donec at felis ut diam sodales efficitur a non ipsum. Sed vel massa tristique, maximus urna sed, suscipit ipsum. Etiam eget turpis enim. Etiam iaculis interdum enim, nec tempor sapien scelerisque eget. Proin aliquet dapibus nisi eget facilisis. Vivamus ligula lectus, auctor at mauris vitae, sagittis cursus metus. Morbi posuere volutpat elit, id facilisis nibh commodo eu.',
     updatedAt: '1579152589',
     createdAt: '1578963600'
@@ -32,7 +37,7 @@ const dbItems = [
   {
     id: '3',
     title: 'Seascape',
-    imageUrl: 'http://localhost:3000/images/1922.438 - Seascape.jpeg',
+    imageUrl: `${baseUrl}/images/1922.438 - Seascape.jpeg`,
     comment: 'Donec magna tellus, blandit nec facilisis vitae, lacinia at mauris. Ut tempus enim leo, eu pulvinar purus convallis eget. Curabitur rutrum justo ut dolor finibus, a sollicitudin nunc eleifend. Mauris placerat quis arcu eu elementum. Morbi sed nisi ut risus egestas sagittis. Morbi tempus velit consectetur est aliquam cursus. Sed blandit scelerisque nisi, tristique aliquet eros. Nam eros urna, volutpat eu scelerisque eu, placerat eget leo. Cras gravida bibendum malesuada.',
     updatedAt: '1579152589',
     createdAt: '1578963600'
@@ -40,7 +45,7 @@ const dbItems = [
   {
     id: '4',
     title: 'The Bathers',
-    imageUrl: 'http://localhost:3000/images/1942.457 - The Bathers.jpeg',
+    imageUrl: `${baseUrl}/images/1942.457 - The Bathers.jpeg`,
     comment: 'Nam lacus nisi, efficitur quis dolor sit amet, condimentum faucibus purus. Etiam nec turpis sem. Aenean maximus sed dui vulputate egestas. Cras facilisis vestibulum eros sed mollis. Phasellus et congue nunc. Phasellus eget eros ut lorem tristique malesuada sit amet eget nisl. Suspendisse gravida mollis nunc elementum venenatis. Phasellus et mi sapien. Phasellus in lectus nec urna varius malesuada. Nulla facilisi. Nunc nunc risus, convallis quis vulputate sed, convallis nec purus. Morbi interdum iaculis est ut bibendum. In aliquet commodo ultrices. Vestibulum eleifend, justo id ultrices elementum, augue sem tincidunt quam, mattis eleifend massa sapien tempor mauris.',
     updatedAt: '1579152589',
     createdAt: '1578963600'
@@ -48,7 +53,7 @@ const dbItems = [
   {
     id: '5',
     title: 'Fruits of the Midi',
-    imageUrl: 'http://localhost:3000/images/1933.1176 - Fruits of the Midi.jpeg',
+    imageUrl: `${baseUrl}/images/1933.1176 - Fruits of the Midi.jpeg`,
     comment: 'Nunc volutpat lacus non velit ullamcorper tristique. Praesent eu fringilla neque, eu egestas lectus. Curabitur tempus, ex a pretium tempus, elit urna vehicula nisl, ac fringilla augue sapien vel mauris. Integer at turpis viverra, feugiat nunc quis, posuere enim. Nunc facilisis ultricies nibh non scelerisque. Pellentesque mollis at urna vitae accumsan. Quisque malesuada posuere libero vel maximus. Nulla at fringilla massa.',
     updatedAt: '1579152589',
     createdAt: '1578963600'
