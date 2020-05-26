@@ -3,7 +3,7 @@
     <div class="body-header"></div>
     <div class="jumbotron jumbotron-fluid">
       <div class="container">
-        <h1 class="display-4">CoreUI Vue Base</h1>
+        <h1 class="display-4">CoreUI Clean Vue</h1>
         <p class="lead">
           A Sample implementation for Single Page Application using CoreUI 3, Bootstrap 4, Vue.js, TypeScript, SCSS and Webpack. <br>
         </p>
